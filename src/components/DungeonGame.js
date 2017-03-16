@@ -25,7 +25,7 @@ export default class DungeonGame extends React.Component {
 				}
 			}
 		}
-		//choose random wall and put a door here
+		//choose random wall and put the door here
 		let doorCoord = Math.floor(Math.random()*border.length);
 		dungeon[border[doorCoord].i][border[doorCoord].j] = 1;
 		return dungeon;
@@ -43,7 +43,7 @@ export default class DungeonGame extends React.Component {
 		console.log(dungeon.length);
 		return dungeon;
 	}
-	getScreenSize(){
+	initGame(){
 		let width = (window.screen.availWidth>600) ? window.screen.availWidth-200 : 400;
 		let height = (window.screen.availHeight>600) ? window.screen.availHeight-300 : 300;
 		console.log('w: '+width+' h: '+height);
@@ -54,8 +54,8 @@ export default class DungeonGame extends React.Component {
 				dungeon: dungeon
 		});
 	}
-	componentWillMount(){
-		this.getScreenSize();
+	componentDidMount(){
+		this.initGame();
 	}
 	render () {
 		let style = {
