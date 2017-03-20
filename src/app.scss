@@ -1,7 +1,3 @@
-@import "./components/_App";
-@import "./components/_DungeonGame";
-body {
-  background-color: lightyellow;
-  text-align: center;
-  margin: 0px;
-}
+@import "./components/scss/_variables";
+@import "./components/scss/_App";
+@import "./components/scss/_DungeonGame";

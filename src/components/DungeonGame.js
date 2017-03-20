@@ -39,6 +39,11 @@ export default class DungeonGame extends React.Component {
 			}
 			dungeon.push(line);
 		}
+		for (let j=0; j<6; j++){
+			let x = Math.floor(Math.random()*(w-6))+3;
+			let y = Math.floor(Math.random()*(h-6))+3;
+			dungeon = this.putRoom(dungeon, x, y);
+		}
 		dungeon = this.putRoom(dungeon, Math.floor(w/2), Math.floor(h/2));
 		console.log(dungeon.length);
 		return dungeon;
@@ -61,15 +66,12 @@ export default class DungeonGame extends React.Component {
 		let style = {
       		width: this.state.width,
 					height: this.state.height,
-					backgroundColor: 'grey',
-					margin: 'auto',
-					marginBottom: 20
-    	};
+				};
 		let dungeonList = this.state.dungeon.map((line, index) => {
       return <div key={"line"+index} className='line'><Line number={index} line={line}/></div>
 		});
 		return (
-			<div>
+			<div className="dungeon-game">
 				<h3>Kill the boss in dungeon 4</h3>
 				<div className="game" style={style}>
 				{dungeonList}
