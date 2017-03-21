@@ -1,37 +1,34 @@
 import React from 'react';
-import Line from './Line.js'
+import Line from './Line.js';
+import { connect } from 'react-redux';
+import * as actions from './redux/actions.js'
+
+@connect((store) => {
+	return {
+		gameWidth: store.gameWidth,
+		gameHeight: store.gameHeight
+	}
+})
 
 export default class DungeonGame extends React.Component {
 	constructor (props) {
 		super (props);
 		this.state = {
-				width: 400,
-				height: 300,
-				dungeon: []
+				dungeon: [],
+				rooms: []
 		}
 	}
-	putRoom(dungeon, x, y){
-		let border = [];
-		for (let i=x-3; i<x+3; i++){
-			for (let j=y-3; j<y+3; j++){
+	putRoom(dungeon, x, y, length){
+		for (let i=x-length; i<x+length; i++){
+			for (let j=y-length; j<y+length; j++){
 				dungeon[i][j]=1;
-				//if it is a border
-				if (i===x-3 || i===x+2 || j===y-3 || j===y+2){
-					dungeon[i][j]=0;
-					//if it is not a corner
-					if (!(i===x-3 && j===y-3) && (!(i===x-3 && j===y+2)) && (!(i===x+2 && j===y-3)) && (!(i===x+2 && j===y+2))){
-						border.push({i, j});
-					}
-				}
 			}
 		}
-		//choose random wall and put the door here
-		let doorCoord = Math.floor(Math.random()*border.length);
-		dungeon[border[doorCoord].i][border[doorCoord].j] = 1;
 		return dungeon;
 	}
 	initDungeon(w, h){
 		let dungeon = [];
+		let rooms = [];
 		for (let i=0; i<w; i++) {
 			let line = [];
 			for (let j=0; j<h; j++) {
@@ -39,33 +36,33 @@ export default class DungeonGame extends React.Component {
 			}
 			dungeon.push(line);
 		}
+		dungeon = this.putRoom(dungeon, Math.floor(w/2), Math.floor(h/2), 3);
+		rooms.push({x: Math.floor(w/2), y: Math.floor(h/2)});
 		for (let j=0; j<6; j++){
-			let x = Math.floor(Math.random()*(w-6))+3;
-			let y = Math.floor(Math.random()*(h-6))+3;
-			dungeon = this.putRoom(dungeon, x, y);
+			let x = Math.floor(Math.random()*(w-8))+3;
+			let y = Math.floor(Math.random()*(h-8))+3;
+			dungeon = this.putRoom(dungeon, x, y, 2);
+			rooms.push({x: x, y: y});
 		}
-		dungeon = this.putRoom(dungeon, Math.floor(w/2), Math.floor(h/2));
-		console.log(dungeon.length);
-		return dungeon;
+		return {dungeon: dungeon, rooms: rooms};
 	}
 	initGame(){
-		let width = (window.screen.availWidth>600) ? window.screen.availWidth-200 : 400;
-		let height = (window.screen.availHeight>600) ? window.screen.availHeight-300 : 300;
-		console.log('w: '+width+' h: '+height);
-		let dungeon = this.initDungeon(Math.floor(width/20), Math.floor(height/20));
+		let dungeon = this.initDungeon(Math.floor(this.props.gameWidth/20), Math.floor(this.props.gameHeight/20));
 		this.setState({
-				width: width,
-				height: height,
-				dungeon: dungeon
+				dungeon: dungeon.dungeon,
+				rooms: dungeon.rooms
 		});
 	}
+
 	componentDidMount(){
 		this.initGame();
 	}
 	render () {
+		console.log(this.props);
+		console.log(actions);
 		let style = {
-      		width: this.state.width,
-					height: this.state.height,
+      		width: this.props.gameWidth,
+					height: this.props.gameHeight
 				};
 		let dungeonList = this.state.dungeon.map((line, index) => {
       return <div key={"line"+index} className='line'><Line number={index} line={line}/></div>
