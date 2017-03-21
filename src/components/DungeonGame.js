@@ -6,7 +6,8 @@ import * as actions from './redux/actions.js'
 @connect((store) => {
 	return {
 		gameWidth: store.gameWidth,
-		gameHeight: store.gameHeight
+		gameHeight: store.gameHeight,
+		dungeon: store.dungeon
 	}
 })
 
@@ -14,42 +15,34 @@ export default class DungeonGame extends React.Component {
 	constructor (props) {
 		super (props);
 		this.state = {
-				dungeon: [],
 				rooms: []
 		}
 	}
-	putRoom(dungeon, x, y, length){
-		for (let i=x-length; i<x+length; i++){
-			for (let j=y-length; j<y+length; j++){
-				dungeon[i][j]=1;
-			}
-		}
-		return dungeon;
+	putRoom(x, y, length){
+		this.props.dispatch(actions.addRoomToDungeon({x, y, length}));
 	}
 	initDungeon(w, h){
-		let dungeon = [];
 		let rooms = [];
 		for (let i=0; i<w; i++) {
 			let line = [];
 			for (let j=0; j<h; j++) {
 				line.push(0);
 			}
-			dungeon.push(line);
+			this.props.dispatch(actions.addLineToDungeon(line));
 		}
-		dungeon = this.putRoom(dungeon, Math.floor(w/2), Math.floor(h/2), 3);
+		this.putRoom(Math.floor(w/2), Math.floor(h/2), 3);
 		rooms.push({x: Math.floor(w/2), y: Math.floor(h/2)});
 		for (let j=0; j<6; j++){
 			let x = Math.floor(Math.random()*(w-8))+3;
 			let y = Math.floor(Math.random()*(h-8))+3;
-			dungeon = this.putRoom(dungeon, x, y, 2);
+			this.putRoom(x, y, 2);
 			rooms.push({x: x, y: y});
 		}
-		return {dungeon: dungeon, rooms: rooms};
+		return {rooms: rooms};
 	}
 	initGame(){
 		let dungeon = this.initDungeon(Math.floor(this.props.gameWidth/20), Math.floor(this.props.gameHeight/20));
 		this.setState({
-				dungeon: dungeon.dungeon,
 				rooms: dungeon.rooms
 		});
 	}
@@ -64,7 +57,7 @@ export default class DungeonGame extends React.Component {
       		width: this.props.gameWidth,
 					height: this.props.gameHeight
 				};
-		let dungeonList = this.state.dungeon.map((line, index) => {
+		let dungeonList = this.props.dungeon.map((line, index) => {
       return <div key={"line"+index} className='line'><Line number={index} line={line}/></div>
 		});
 		return (
