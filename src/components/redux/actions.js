@@ -11,3 +11,16 @@ export function addRoomToDungeon(newRoom){
       newRoom
     }
 }
+
+export function addCorridorsToDungeon(way){
+  return {
+    type: "ADD_CORRIDORS_TO_DUNGEON",
+    way
+  }
+}
+ export function putPlayer(position) {
+   return {
+     type: "PUT_PLAYER",
+     position
+   }
+ }

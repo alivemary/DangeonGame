@@ -9,7 +9,8 @@ import configureStore from "./components/redux/store.js";
 let initialState = {
   gameWidth: (window.screen.availWidth>600) ? window.screen.availWidth-200 : 400,
   gameHeight: (window.screen.availHeight>600) ? window.screen.availHeight-300 : 300,
-  dungeon: []
+  dungeon: [],
+  rooms: []
 };
 
 let store = configureStore(initialState);

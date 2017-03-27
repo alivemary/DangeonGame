@@ -7,13 +7,13 @@ export default class Line extends Component {
     var elementList = this.props.line.map((element, index) => {
       let style;
       switch (element) {
-        case 1: {
+        case "SPACE": {
           style = {
             backgroundColor: 'white'
           };
           break;
         }
-        case 2: {
+        case "PLAYER": {
           style = {
             backgroundColor: 'red'
           };

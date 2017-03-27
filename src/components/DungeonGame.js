@@ -7,52 +7,50 @@ import * as actions from './redux/actions.js'
 	return {
 		gameWidth: store.gameWidth,
 		gameHeight: store.gameHeight,
-		dungeon: store.dungeon
+		dungeon: store.dungeon,
+		rooms: store.rooms
 	}
 })
 
 export default class DungeonGame extends React.Component {
-	constructor (props) {
-		super (props);
-		this.state = {
-				rooms: []
-		}
-	}
+
 	putRoom(x, y, length){
 		this.props.dispatch(actions.addRoomToDungeon({x, y, length}));
 	}
+	addCorridors(room1, room2){
+		this.props.dispatch(actions.addCorridorsToDungeon({room1, room2}));
+	}
+	putPlayer(x, y) {
+		this.props.dispatch(actions.putPlayer({x, y}));
+	}
 	initDungeon(w, h){
-		let rooms = [];
 		for (let i=0; i<w; i++) {
 			let line = [];
 			for (let j=0; j<h; j++) {
-				line.push(0);
+				line.push("WALL");
 			}
 			this.props.dispatch(actions.addLineToDungeon(line));
 		}
+		//put the first room in the center
 		this.putRoom(Math.floor(w/2), Math.floor(h/2), 3);
-		rooms.push({x: Math.floor(w/2), y: Math.floor(h/2)});
-		for (let j=0; j<6; j++){
+		let previousRoom = {x: Math.floor(w/2), y: Math.floor(h/2)}
+		let numberOfRooms = Math.floor(this.props.gameWidth/100);
+		//put other rooms randomly
+		for (let j=0; j<numberOfRooms; j++){
 			let x = Math.floor(Math.random()*(w-8))+3;
 			let y = Math.floor(Math.random()*(h-8))+3;
 			this.putRoom(x, y, 2);
-			rooms.push({x: x, y: y});
+			this.addCorridors(previousRoom, {x: x, y: y});
+			previousRoom = {x: x, y: y};
 		}
-		return {rooms: rooms};
-	}
-	initGame(){
-		let dungeon = this.initDungeon(Math.floor(this.props.gameWidth/20), Math.floor(this.props.gameHeight/20));
-		this.setState({
-				rooms: dungeon.rooms
-		});
+		this.putPlayer(Math.floor(w/2), Math.floor(h/2));
 	}
 
 	componentDidMount(){
-		this.initGame();
+		this.initDungeon(Math.floor(this.props.gameWidth/20), Math.floor(this.props.gameHeight/20));
 	}
 	render () {
-		console.log(this.props);
-		console.log(actions);
+		console.log(this.props.rooms);
 		let style = {
       		width: this.props.gameWidth,
 					height: this.props.gameHeight
@@ -62,7 +60,7 @@ export default class DungeonGame extends React.Component {
 		});
 		return (
 			<div className="dungeon-game">
-				<h3>Kill the boss in dungeon 4</h3>
+				<h3>Kill the boss in dungeon</h3>
 				<div className="game" style={style}>
 				{dungeonList}
 				</div>
