@@ -50,19 +50,13 @@ export default function reducer(state, action){
     case "PUT_PLAYER":
       return {
         ...state,
-        dungeon: state.dungeon.map((element, i) => {
-          if (i === action.position.x) {
-            return element.map((el, j) => {
-              if (j === action.position.y) {
-                return "PLAYER";
-              }
-              return el;
-            });
-          }
-          return element;
-        })
+        player: {
+          ...state.player,
+          position: {x: action.position.x, y: action.position.y}
+        }
       }
 
+    
     default:
       return state;
   }

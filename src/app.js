@@ -10,7 +10,15 @@ let initialState = {
   gameWidth: (window.screen.availWidth>600) ? window.screen.availWidth-200 : 400,
   gameHeight: (window.screen.availHeight>600) ? window.screen.availHeight-300 : 300,
   dungeon: [],
-  rooms: []
+  rooms: [],
+  player: {
+    position: {x: 0, y: 0},
+    health: 100,
+    weapon: "stick",
+    attack: 7,
+    level: 0,
+    nextlevel: 60
+  }
 };
 
 let store = configureStore(initialState);
