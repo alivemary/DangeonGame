@@ -1,12 +1,20 @@
+import {
+  ADD_LINE_TO_DUNGEON,
+  ADD_ROOM_TO_DUNGEON,
+  ADD_CORRIDORS_TO_DUNGEON,
+  PUT_PLAYER,
+  PUT_BOSS
+} from "./actionTypes";
+
 export default function reducer(state, action){
   switch (action.type) {
-    case "ADD_LINE_TO_DUNGEON":
+    case ADD_LINE_TO_DUNGEON:
       return {
         ...state,
         dungeon: [...state.dungeon, action.newLine]
       }
 
-    case "ADD_ROOM_TO_DUNGEON":
+    case ADD_ROOM_TO_DUNGEON:
       return {
         ...state,
         dungeon: state.dungeon.map((element, i) =>{
@@ -24,7 +32,7 @@ export default function reducer(state, action){
         rooms: [...state.rooms, {x: action.newRoom.x, y: action.newRoom.y}]
       }
 
-    case "ADD_CORRIDORS_TO_DUNGEON":
+    case ADD_CORRIDORS_TO_DUNGEON:
       return {
         ...state,
         dungeon: state.dungeon.map((element, i) => {
@@ -47,7 +55,7 @@ export default function reducer(state, action){
         })
       }
 
-    case "PUT_PLAYER":
+    case PUT_PLAYER:
       return {
         ...state,
         player: {
@@ -55,8 +63,15 @@ export default function reducer(state, action){
           position: {x: action.position.x, y: action.position.y}
         }
       }
+  case PUT_BOSS:
+    return {
+      ...state,
+      boss: {
+        ...state.boss,
+        position: {x: action.position.x, y: action.position.y}
+      }
+    }
 
-    
     default:
       return state;
   }

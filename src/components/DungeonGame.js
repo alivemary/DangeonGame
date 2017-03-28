@@ -9,7 +9,8 @@ import * as actions from './redux/actions.js'
 		gameHeight: store.gameHeight,
 		dungeon: store.dungeon,
 		rooms: store.rooms,
-		player: store.player
+		player: store.player,
+		boss: store.boss
 	}
 })
 
@@ -22,7 +23,13 @@ export default class DungeonGame extends React.Component {
 		this.props.dispatch(actions.addCorridorsToDungeon({room1, room2}));
 	}
 	putPlayer(position) {
-		this.props.dispatch(actions.putPlayer(position));
+		if (this.props.dungeon[position.x][position.y] === 'SPACE') {
+			this.props.dispatch(actions.putPlayer(position));
+		}
+	}
+
+	putBoss(position) {
+		this.props.dispatch(actions.putBoss(position));
 	}
 
 	initDungeon(w, h){
@@ -44,32 +51,27 @@ export default class DungeonGame extends React.Component {
 			this.putRoom(x, y, 2);
 			this.addCorridors(previousRoom, {x: x, y: y});
 			previousRoom = {x: x, y: y};
+			if (j === numberOfRooms-1) {
+				this.putBoss(previousRoom);
+			}
 		}
-		this.putPlayer({x: Math.floor(w/2), y: Math.floor(h/2)});
+		this.props.dispatch(actions.putPlayer({x: Math.floor(w/2), y: Math.floor(h/2)}));
 	}
 
 	handleKeyDown(event) {
 		let position = this.props.player.position;
 		switch (event.key) {
 			case "ArrowLeft":
-				if (this.props.dungeon[position.x-1][position.y] === 'SPACE') {
-					this.putPlayer({x: position.x-1, y: position.y});
-				}
+				this.putPlayer({x: position.x-1, y: position.y});
 				break;
 			case "ArrowRight":
-				if (this.props.dungeon[position.x+1][position.y] === 'SPACE') {
-					this.putPlayer({x: position.x+1, y: position.y});
-				}
+				this.putPlayer({x: position.x+1, y: position.y});
 				break;
 			case "ArrowUp":
-				if (this.props.dungeon[position.x][position.y-1] === 'SPACE') {
-					this.putPlayer({x: position.x, y: position.y-1});
-				}
+				this.putPlayer({x: position.x, y: position.y-1});
 				break;
 			case "ArrowDown":
-				if (this.props.dungeon[position.x][position.y+1] === 'SPACE') {
-					this.putPlayer({x: position.x, y: position.y+1});
-				}
+				this.putPlayer({x: position.x, y: position.y+1});
 				break;
 		}
 	}
@@ -89,7 +91,12 @@ export default class DungeonGame extends React.Component {
 					height: this.props.gameHeight
 				};
 		let dungeonList = this.props.dungeon.map((line, index) => {
-      return <div key={"line"+index} className='line'><Line player={this.props.player.position} number={index} line={line}/></div>
+      return <div key={"line"+index} className='line'>
+							<Line player={this.props.player.position}
+										boss={this.props.boss.position}
+										number={index}
+										line={line}/>
+						 </div>
 		});
 		return (
 			<div className="dungeon-game">

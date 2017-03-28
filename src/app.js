@@ -1,7 +1,7 @@
 const css = require('./app.scss');
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Provider} from 'react-redux';
+import { Provider } from 'react-redux';
 import App from './components/App';
 
 import configureStore from "./components/redux/store.js";
@@ -18,6 +18,11 @@ let initialState = {
     attack: 7,
     level: 0,
     nextlevel: 60
+  },
+  boss: {
+    position: {x: 0, y: 0},
+    health: 500,
+    attack: 20
   }
 };
 

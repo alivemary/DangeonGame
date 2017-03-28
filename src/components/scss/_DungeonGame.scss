@@ -7,16 +7,32 @@
    border: $border;
    border-right: none;
    border-top: none;
- }
-.line {
-  box-sizing: border-box;
-}
-.element {
-  width: 20px;
-  height: 20px;
-  font-size: 6px;
-  box-sizing: border-box;
-  border-top: $border;
-  border-right: $border;
-  background-color: black;
+   .line {
+     box-sizing: border-box;
+     .element {
+       width: 20px;
+       height: 20px;
+       font-size: 6px;
+       box-sizing: border-box;
+       border-top: $border;
+       border-right: $border;
+       background-color: black;
+     }
+     .space {
+       background-color: white;
+     }
+     .wall {
+       background-color: black;
+     }
+     .boss {
+       background-color: orange;
+     }
+     .player {
+       background-color: red;
+     }
+     .health {
+       background-color: green;
+     }
+   }
+
 }
