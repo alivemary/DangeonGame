@@ -3,7 +3,9 @@ import {
   ADD_ROOM_TO_DUNGEON,
   ADD_CORRIDORS_TO_DUNGEON,
   PUT_PLAYER,
-  PUT_BOSS
+  PUT_BOSS,
+  ATTACK_ENEMY,
+  PUT_STAFF
 } from "./actionTypes";
 
 
@@ -14,10 +16,11 @@ export function addLineToDungeon(newLine){
     }
 }
 
-export function addRoomToDungeon(newRoom){
+export function addRoomToDungeon(position, length){
     return {
       type: ADD_ROOM_TO_DUNGEON,
-      newRoom
+      position,
+      length
     }
 }
 
@@ -35,9 +38,23 @@ export function putPlayer(position) {
    }
  }
 
- export function putBoss(position) {
+export function putBoss(position) {
     return {
       type: PUT_BOSS,
       position
     }
   }
+
+export function attackEnemy() {
+     return {
+       type: ATTACK_ENEMY
+     }
+   }
+
+export function putStaff(kind, position) {
+    return {
+      type: PUT_STAFF,
+      kind,
+      position
+    }
+}

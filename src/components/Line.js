@@ -27,6 +27,10 @@ export default class Line extends Component {
           break;
         }
       }
+      if (Number.isInteger(element)) {
+        console.log(element);
+        classes += " health";
+      }
       if (index === this.props.player.y && this.props.number === this.props.player.x) {
         return <div id={this.props.number+'_'+index}
                     key={this.props.number+'_'+index}
