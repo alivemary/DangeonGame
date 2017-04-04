@@ -44,7 +44,7 @@ export default function reducer(state, action){
         dungeon: state.dungeon.map((element, i) => {
           if (i>=minX && i<=maxX){
             return element.map((el, j) => {
-              if (j === action.way.room1.y){
+              if (j === action.way.room1.y && i !== action.way.room1.x){
                 return "SPACE";
               }
               if (i === action.way.room2.x && j>minY && j<=maxY) {
@@ -63,7 +63,21 @@ export default function reducer(state, action){
         player: {
           ...state.player,
           position: {x: action.position.x, y: action.position.y}
-        }
+        },
+        dungeon: state.dungeon.map((element, i) => {
+
+            return element.map((el, j) => {
+              if (el === "PLAYER") {
+                return "SPACE";
+              }
+              if (j === action.position.y && i === action.position.x) {
+                return "PLAYER";
+              }
+              return el;
+            });
+
+          return element;
+        })
       }
 
     case PUT_BOSS:
@@ -72,7 +86,18 @@ export default function reducer(state, action){
         boss: {
           ...state.boss,
           position: {x: action.position.x, y: action.position.y}
-        }
+        },
+        dungeon: state.dungeon.map((element, i) => {
+          if (i === action.position.x) {
+            return element.map((el, j) => {
+              if (j === action.position.y) {
+                return "BOSS";
+              }
+              return el;
+            });
+          }
+          return element;
+        })
       }
 
     case ATTACK_ENEMY:

@@ -27,6 +27,12 @@ export default class DungeonGame extends React.Component {
 
 	putPlayer(position) {
 		if (this.props.boss.position.x === position.x && this.props.boss.position.y === position.y) {
+			if (this.props.boss.health <= 0) {
+				alert("You won!");
+			}
+			if (this.props.player.health <= 0) {
+				alert("You loose!");
+			}
 			if (this.props.boss.health>0 && this.props.player.health>0) {
 				this.props.dispatch(actions.attackEnemy());
 			}
@@ -79,7 +85,6 @@ export default class DungeonGame extends React.Component {
 			this.addCorridors(previousRoom, nextRoom);
 			previousRoom = nextRoom;
 			this.putStaff(nextRoom);
-			console.log(nextRoom);
 		}
 		this.props.dispatch(actions.putPlayer(playerPosition));
 		this.putBoss(bossPosition);
@@ -114,18 +119,13 @@ export default class DungeonGame extends React.Component {
 	}
 
 	render () {
-		let staff = this.props.staff[0];
-		console.log(this.props.dungeon);
-		//console.log(this.props.dungeon[this.props.staff[0].position.x][this.props.staff[0].position.y]);
 		let style = {
       		width: this.props.gameWidth,
 					height: this.props.gameHeight
 				};
 		let dungeonList = this.props.dungeon.map((line, index) => {
       return <div key={"line"+index} className='line'>
-							<Line player={this.props.player.position}
-										boss={this.props.boss.position}
-										number={index}
+							<Line number={index}
 										line={line}/>
 						 </div>
 		});
