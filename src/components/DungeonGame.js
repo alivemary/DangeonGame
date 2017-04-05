@@ -3,19 +3,9 @@ import Line from './Line.js';
 import { connect } from 'react-redux';
 import * as actions from './redux/actions.js'
 
-@connect((store) => {
-	return {
-		gameWidth: store.gameWidth,
-		gameHeight: store.gameHeight,
-		dungeon: store.dungeon,
-		rooms: store.rooms,
-		player: store.player,
-		boss: store.boss,
-		staff: store.staff
-	}
-})
 
-export default class DungeonGame extends React.Component {
+
+export class DungeonGame extends React.Component {
 
 	putRoom(position, length){
 		this.props.dispatch(actions.addRoomToDungeon(position, length));
@@ -140,3 +130,15 @@ export default class DungeonGame extends React.Component {
         )
 	}
 }
+
+export default connect((store) => {
+ return {
+	 gameWidth: store.gameWidth,
+	 gameHeight: store.gameHeight,
+	 dungeon: store.dungeon,
+	 rooms: store.rooms,
+	 player: store.player,
+	 boss: store.boss,
+	 staff: store.staff
+ }
+})(DungeonGame);
