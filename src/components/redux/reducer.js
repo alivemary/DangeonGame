@@ -5,7 +5,9 @@ import {
   PUT_PLAYER,
   PUT_BOSS,
   ATTACK_ENEMY,
-  PUT_STAFF
+  PUT_STAFF,
+  CHANGE_HEALTH,
+  CHANGE_XP
 } from "./actionTypes";
 import { initState } from "./store.js";
 
@@ -115,7 +117,7 @@ export default function reducer(state = initState(), action){
       }
 
     case PUT_STAFF:
-      let id = state.staff.length;
+      let id = state.staff.length+1;
       return {
         ...state,
         staff: [...state.staff, {
@@ -135,6 +137,16 @@ export default function reducer(state = initState(), action){
           return element;
         })
       }
+
+      case CHANGE_HEALTH:
+        return {
+          ...state,
+          staff: state.staff.filter(element => element.position.x !== action.position.x && element.position.y !== action.position.y),
+          player: {
+            ...state.player,
+            health: state.player.health + 40
+          }
+        }
 
     default:
       return state;

@@ -3,9 +3,9 @@ import Line from './Line.js';
 import { connect } from 'react-redux';
 import * as actions from './redux/actions.js'
 
-const DUNGEON_WIDTH = 60;
+const DUNGEON_WIDTH = 40;
 const DUNGEON_HEIGHT = 25;
-const NUMBER_OF_ROOMS = 10;
+const NUMBER_OF_ROOMS = 3;
 
 export class DungeonGame extends React.Component {
 
@@ -42,6 +42,13 @@ export class DungeonGame extends React.Component {
 			}
 			return;
 		}
+		this.props.staff.forEach(item => {
+			if (item.position.x === position.x && item.position.y === position.y) {
+				if (item.kind === "medicine") {
+					this.props.dispatch(actions.changeHealth(position));
+				}
+			}
+		});
 		if (this.props.dungeon[position.x][position.y] !== 'WALL') {
 			this.props.dispatch(actions.putPlayer(position));
 		}
@@ -106,7 +113,7 @@ export class DungeonGame extends React.Component {
 	}
 
 	componentDidMount(){
-		this.initDungeon(DUNGEON_WIDTH, DUNGEON_HEIGHT);
+		this.initDungeon();
 		document.addEventListener("keydown", this.handleKeyDown.bind(this));
 	}
 
@@ -119,18 +126,27 @@ export class DungeonGame extends React.Component {
       		width: DUNGEON_WIDTH*20,
 					height: DUNGEON_HEIGHT*20
 				};
+
+		let statsString = "Health: " + this.props.player.health
+											+" Weapon: "+this.props.player.weapon
+											+" Attack: "+this.props.player.attack
+											+" Level: "+this.props.player.level;
+
 		let dungeonList = this.props.dungeon.map((line, index) => {
       return <div key={"line"+index} className='line'>
 							<Line number={index}
-										line={line}/>
+										line={line}
+										player={"Health: " + this.props.player.health + ", Attack: " + this.props.player.attack}
+										boss={"Health: " + this.props.boss.health + ", Attack: " + this.props.boss.attack}
+									/>
 						 </div>
 		});
 		return (
 			<div className="dungeon-game">
 				<h3>Kill the boss in dungeon</h3>
-				<div>Health: {this.props.player.health} Weapon: {this.props.player.weapon} Attack: {this.props.player.attack} Level: {this.props.player.level}</div>
+				<div>{statsString}</div>
 				<div className="game" style={style}>
-				{dungeonList}
+					{dungeonList}
 				</div>
 			</div>
         )

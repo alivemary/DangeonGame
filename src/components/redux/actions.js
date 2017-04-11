@@ -5,7 +5,9 @@ import {
   PUT_PLAYER,
   PUT_BOSS,
   ATTACK_ENEMY,
-  PUT_STAFF
+  PUT_STAFF,
+  CHANGE_HEALTH,
+  CHANGE_XP
 } from "./actionTypes";
 
 
@@ -57,4 +59,17 @@ export function putStaff(kind, position) {
       kind,
       position
     }
+}
+
+export function changeHealth(position) {
+     return {
+       type: CHANGE_HEALTH,
+       position
+     }
+}
+
+export function changeXp() {
+        return {
+          type: CHANGE_XP
+        }
 }
