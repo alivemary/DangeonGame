@@ -1,5 +1,5 @@
 import {
-  addLineToDungeon,
+  addDungeon,
   addRoomToDungeon,
   addCorridorsToDungeon,
   putPlayer,
@@ -9,13 +9,13 @@ import {
 } from '../actions';
 
 describe('actions', () => {
-  describe('addLineToDungeon', () => {
-    it('should have a type of "ADD_LINE_TO_DUNGEON"', () => {
-      expect(addLineToDungeon().type).toEqual('ADD_LINE_TO_DUNGEON');
+  describe('addDungeon', () => {
+    it('should have a type of "ADD_DUNGEON"', () => {
+      expect(addDungeon().type).toEqual('ADD_DUNGEON');
     });
-    it('should pass on the newLine we pass in', () => {
-      let newLine = [0, 0, 1];
-      expect(addLineToDungeon(newLine).newLine).toEqual(newLine);
+    it('should pass on the dungeon we pass in', () => {
+      let dungeon = [0, 0, 1];
+      expect(addDungeon(dungeon).dungeon).toEqual(dungeon);
     });
   });
   describe('addRoomToDungeon', () => {

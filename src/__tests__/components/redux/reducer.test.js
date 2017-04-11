@@ -1,33 +1,13 @@
 import reducer from '../reducer';
-import { fromJS } from 'immutable';
-import { toEqualImmutable } from 'jest-immutable-matchers';
 import * as types from '../actionTypes';
+import { initState } from "../store";
 
 describe(reducer, () => {
 
   let state;
 
   beforeEach(() => {
-    state = {
-      gameWidth: 400,
-      gameHeight: 300,
-      dungeon: [],
-      rooms: [],
-      player: {
-        position: {x: 0, y: 0},
-        health: 100,
-        weapon: "stick",
-        attack: 7,
-        level: 0,
-        nextlevel: 60
-      },
-      boss: {
-        position: {x: 0, y: 0},
-        health: 500,
-        attack: 20
-      },
-      staff: []
-    }
+    state = initState();
   });
 
   it('should return the initial state', function() {
@@ -35,13 +15,13 @@ describe(reducer, () => {
     expect(reducer(undefined, {})).toEqual(expected);
   });
 
-  it('should handle ADD_LINE_TO_DUNGEON', () => {
-    const dungeon = [["WALL", "SPACE", 14]];
+  it('should handle ADD_DUNGEON', () => {
+    const dungeon = ["WALL", "SPACE", 14];
     const expected = {...state, dungeon: dungeon};
     expect(
       reducer(state, {
-        type: types.ADD_LINE_TO_DUNGEON,
-        newLine: ["WALL", "SPACE", 14]
+        type: types.ADD_DUNGEON,
+        dungeon: ["WALL", "SPACE", 14]
       })
     ).toEqual(expected);
   });

@@ -1,10 +1,9 @@
 import {createStore} from "redux";
 import reducer from "./reducer.js";
 
-export default function configureStore (
-  initialState = {
-    gameWidth: 400,
-    gameHeight: 300,
+export function initState() {
+  
+  return {
     dungeon: [],
     rooms: [],
     player: {
@@ -14,8 +13,18 @@ export default function configureStore (
       attack: 7,
       level: 0,
       nextlevel: 60
-    }
+    },
+    boss: {
+      position: {x: 0, y: 0},
+      health: 500,
+      attack: 20
+    },
+    staff: []
   }
+}
+
+export default function configureStore (
+  initialState = initState()
 ){
   return createStore(reducer, initialState);
 }

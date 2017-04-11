@@ -1,5 +1,5 @@
 import {
-  ADD_LINE_TO_DUNGEON,
+  ADD_DUNGEON,
   ADD_ROOM_TO_DUNGEON,
   ADD_CORRIDORS_TO_DUNGEON,
   PUT_PLAYER,
@@ -9,10 +9,10 @@ import {
 } from "./actionTypes";
 
 
-export function addLineToDungeon(newLine){
+export function addDungeon(dungeon){
     return {
-      type: ADD_LINE_TO_DUNGEON,
-      newLine
+      type: ADD_DUNGEON,
+      dungeon
     }
 }
 

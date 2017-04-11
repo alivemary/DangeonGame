@@ -1,5 +1,5 @@
 import {
-  ADD_LINE_TO_DUNGEON,
+  ADD_DUNGEON,
   ADD_ROOM_TO_DUNGEON,
   ADD_CORRIDORS_TO_DUNGEON,
   PUT_PLAYER,
@@ -7,34 +7,14 @@ import {
   ATTACK_ENEMY,
   PUT_STAFF
 } from "./actionTypes";
+import { initState } from "./store.js";
 
-const initialState = {
-  gameWidth: 400,
-  gameHeight: 300,
-  dungeon: [],
-  rooms: [],
-  player: {
-    position: {x: 0, y: 0},
-    health: 100,
-    weapon: "stick",
-    attack: 7,
-    level: 0,
-    nextlevel: 60
-  },
-  boss: {
-    position: {x: 0, y: 0},
-    health: 500,
-    attack: 20
-  },
-  staff: []
-};
-
-export default function reducer(state = initialState, action){
+export default function reducer(state = initState(), action){
   switch (action.type) {
-    case ADD_LINE_TO_DUNGEON:
+    case ADD_DUNGEON:
       return {
         ...state,
-        dungeon: [...state.dungeon, action.newLine]
+        dungeon: action.dungeon
       }
 
     case ADD_ROOM_TO_DUNGEON:
