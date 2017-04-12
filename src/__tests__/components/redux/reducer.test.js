@@ -192,11 +192,23 @@ describe(reducer, () => {
     const newState = {...state, staff: staff, player: player};
     const expected = {...state, staff: [], player: {...state.player, health: 140}};
     expect(
-      reducer(state, {
+      reducer(newState, {
         type: types.CHANGE_HEALTH,
         position: position
       })
     ).toEqual(expected);
   });
 
+  it('should handle CHANGE_ATTACK', () => {
+    const position = {x: 12, y: 10};
+    const staff = [{id: 1, kind: "weapon", position: position}];
+    const newState = {...state, staff: staff, player: {...state.player, attack: 17}};
+    const expected = {...state, staff: [], player: {...state.player, attack: 27}};
+    expect(
+      reducer(newState, {
+        type: types.CHANGE_ATTACK,
+        position: position
+      })
+    ).toEqual(expected);
+  });
 });

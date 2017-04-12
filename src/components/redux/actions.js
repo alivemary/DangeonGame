@@ -7,6 +7,7 @@ import {
   ATTACK_ENEMY,
   PUT_STAFF,
   CHANGE_HEALTH,
+  CHANGE_ATTACK,
   CHANGE_XP
 } from "./actionTypes";
 
@@ -67,7 +68,12 @@ export function changeHealth(position) {
        position
      }
 }
-
+export function changeAttack(position) {
+     return {
+       type: CHANGE_ATTACK,
+       position
+     }
+}
 export function changeXp() {
         return {
           type: CHANGE_XP

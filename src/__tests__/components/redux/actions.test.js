@@ -7,6 +7,7 @@ import {
   putStaff,
   attackEnemy,
   changeHealth,
+  changeAttack,
   changeXp
 } from '../actions';
 
@@ -81,6 +82,15 @@ describe('actions', () => {
     it('should pass on the position we pass in', () => {
       let position = {x: 13, y: 22};
       expect(changeHealth(position).position).toEqual(position);
+    });
+  });
+  describe('changeAttack', () => {
+    it('should have a type of "CHANGE_ATTACK"', () => {
+      expect(changeAttack().type).toEqual('CHANGE_ATTACK');
+    });
+    it('should pass on the position we pass in', () => {
+      let position = {x: 13, y: 22};
+      expect(changeAttack(position).position).toEqual(position);
     });
   });
   describe('changeXp', () => {

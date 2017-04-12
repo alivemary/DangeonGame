@@ -30,9 +30,18 @@
      .player {
        background-color: red;
      }
-     .health {
+     .medicine {
        background-color: green;
      }
+     .weapon {
+       background-color: yellow;
+     }
+     .blink_me {
+      animation: blinker 0.7s linear infinite;
+     }
+      @keyframes blinker {
+        50% { opacity: 0.7; }
+      }
    }
 
 }

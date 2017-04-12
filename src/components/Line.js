@@ -13,6 +13,11 @@ export default class Line extends Component {
     player: "",
     boss: ""
   }
+
+  capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+
   render() {
     var elementList = this.props.line.map((element, index) => {
       let classes = "element";
@@ -23,7 +28,7 @@ export default class Line extends Component {
           break;
         }
         case "PLAYER": {
-          classes += " player";
+          classes += " player blink_me";
           title = this.props.player;
           break;
         }
@@ -37,8 +42,22 @@ export default class Line extends Component {
         }
       }
       if (Number.isInteger(element)) {
-        classes += " health";
-        title = "Medicine: health + 40"
+        this.props.staff.forEach(staff => {
+          if (staff.id === element) {
+            classes += " "+staff.kind;
+            title = this.capitalizeFirstLetter(staff.kind)+": ";
+            switch (staff.kind) {
+              case "medicine":
+                title += "health +40";
+                break;
+              case "weapon":
+                title += "attack +10";
+                break;
+              default:
+                title += " ";
+            }
+          }
+        });
       }
 
       return <div id={this.props.number+'_'+index}

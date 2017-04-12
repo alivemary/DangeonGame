@@ -3,9 +3,9 @@ import Line from './Line.js';
 import { connect } from 'react-redux';
 import * as actions from './redux/actions.js'
 
-const DUNGEON_WIDTH = 40;
+const DUNGEON_WIDTH = 60;
 const DUNGEON_HEIGHT = 25;
-const NUMBER_OF_ROOMS = 3;
+const NUMBER_OF_ROOMS = 15;
 
 export class DungeonGame extends React.Component {
 
@@ -18,12 +18,8 @@ export class DungeonGame extends React.Component {
   		}
   		dungeon.push(line);
   	}
-  	return dungeon;
+		return dungeon;
   }
-
-	putRoom(position, length){
-		this.props.dispatch(actions.addRoomToDungeon(position, length));
-	}
 
 	addCorridors(room1, room2){
 		this.props.dispatch(actions.addCorridorsToDungeon({room1, room2}));
@@ -47,6 +43,9 @@ export class DungeonGame extends React.Component {
 				if (item.kind === "medicine") {
 					this.props.dispatch(actions.changeHealth(position));
 				}
+				if (item.kind === "weapon") {
+					this.props.dispatch(actions.changeAttack(position));
+				}
 			}
 		});
 		if (this.props.dungeon[position.x][position.y] !== 'WALL') {
@@ -54,12 +53,10 @@ export class DungeonGame extends React.Component {
 		}
 	}
 
-	putBoss(position) {
-		this.props.dispatch(actions.putBoss(position));
-	}
-
 	putStaff(position) {
-		this.props.dispatch(actions.putStaff("medicine", position));
+		let staffTypes = ["medicine", "weapon"];
+		let currentStaff = staffTypes[Math.floor(Math.random()*staffTypes.length)];
+		this.props.dispatch(actions.putStaff(currentStaff, position));
 	}
 
 	initDungeon(){
@@ -69,7 +66,7 @@ export class DungeonGame extends React.Component {
 		let playerPosition = previousRoom;
 		let bossPosition = previousRoom;
 		//put the first room in the center
-		this.putRoom(previousRoom, 3);
+		this.props.dispatch(actions.addRoomToDungeon(previousRoom, 3));
 		//put other rooms randomly
 		for (let j=0; j<NUMBER_OF_ROOMS; j++){
 			let x = Math.floor(Math.random()*(DUNGEON_WIDTH-6))+3;
@@ -83,14 +80,14 @@ export class DungeonGame extends React.Component {
 			if (x > bossPosition.x) {
 				bossPosition = nextRoom;
 			}
- 			this.putRoom(nextRoom, 2);
+			this.props.dispatch(actions.addRoomToDungeon(nextRoom, 2));
 			this.addCorridors(previousRoom, nextRoom);
 			this.putStaff(nextRoom);
 			previousRoom = nextRoom;
 
 		}
 		this.props.dispatch(actions.putPlayer(playerPosition));
-		this.putBoss(bossPosition);
+		this.props.dispatch(actions.putBoss(bossPosition));
 
 	}
 
@@ -128,7 +125,6 @@ export class DungeonGame extends React.Component {
 				};
 
 		let statsString = "Health: " + this.props.player.health
-											+" Weapon: "+this.props.player.weapon
 											+" Attack: "+this.props.player.attack
 											+" Level: "+this.props.player.level;
 
@@ -138,12 +134,13 @@ export class DungeonGame extends React.Component {
 										line={line}
 										player={"Health: " + this.props.player.health + ", Attack: " + this.props.player.attack}
 										boss={"Health: " + this.props.boss.health + ", Attack: " + this.props.boss.attack}
+										staff={this.props.staff}
 									/>
 						 </div>
 		});
 		return (
 			<div className="dungeon-game">
-				<h3>Kill the boss in dungeon</h3>
+				<h3>Kill the boss in the dungeon</h3>
 				<div>{statsString}</div>
 				<div className="game" style={style}>
 					{dungeonList}

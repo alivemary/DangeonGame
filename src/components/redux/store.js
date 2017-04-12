@@ -2,15 +2,14 @@ import {createStore} from "redux";
 import reducer from "./reducer.js";
 
 export function initState() {
-  
+
   return {
     dungeon: [],
     rooms: [],
     player: {
       position: {x: 0, y: 0},
       health: 100,
-      weapon: "stick",
-      attack: 7,
+      attack: 17,
       level: 0,
       nextlevel: 60
     },
