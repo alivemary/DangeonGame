@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 export default class Line extends Component {
   static propTypes = {
-    line: React.PropTypes.array,
-    number: React.PropTypes.number,
-    player: React.PropTypes.string,
-    boss: React.PropTypes.string
+    line: PropTypes.array,
+    number:PropTypes.number,
+    player: PropTypes.string,
+    boss: PropTypes.string
   }
   static defaultProps = {
     line: [],
