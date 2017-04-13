@@ -8,7 +8,8 @@ import {
     PUT_STAFF,
     CHANGE_HEALTH,
     CHANGE_ATTACK,
-    CHANGE_XP
+    CHANGE_XP,
+    ADD_LEVEL
 } from "./actionTypes";
 import { initState } from "./store.js";
 
@@ -113,7 +114,8 @@ export default function reducer(state = initState(), action) {
                 },
                 player: {
                     ...state.player,
-                    health: state.player.health - state.boss.attack
+                    health: state.player.health - state.boss.attack,
+                    xp: state.player.xp + state.boss.attack
                 }
             }
 
@@ -156,6 +158,18 @@ export default function reducer(state = initState(), action) {
                 player: {
                     ...state.player,
                     attack: state.player.attack + 10
+                }
+            }
+
+        case ADD_LEVEL:
+            return {
+                ...state,
+                player: {
+                    ...state.player,
+                    attack: state.player.attack * 2,
+                    level: state.player.level + 1,
+                    xp: state.player.xp - state.player.nextlevel,
+                    nextlevel: state.player.nextlevel * 2
                 }
             }
 

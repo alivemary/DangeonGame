@@ -25,16 +25,29 @@ export class DungeonGame extends React.Component {
 		this.props.dispatch(actions.addCorridorsToDungeon({room1, room2}));
 	}
 
+	checkLevel(player) {
+		if (player.xp >= player.nextlevel) {
+			this.props.dispatch(actions.addLevel());
+		}
+	}
+
+	checkVictory() {
+		if (this.props.boss.health <= 0 || this.props.player.health <= 0) {
+			return true;
+		}
+		return false;
+	}
+
 	putPlayer(position) {
 		if (this.props.boss.position.x === position.x && this.props.boss.position.y === position.y) {
-			if (this.props.boss.health <= 0) {
-				alert("You won!");
-			}
-			if (this.props.player.health <= 0) {
-				alert("You loose!");
-			}
 			if (this.props.boss.health>0 && this.props.player.health>0) {
 				this.props.dispatch(actions.attackEnemy());
+				this.checkLevel(this.props.player);
+				if (this.checkVictory()) {
+					let winText = (this.props.player.health <= 0) ? "You loose!" : "You win!";
+					this.props.dispatch(actions.putPlayer(position));
+					alert(winText);
+				}
 			}
 			return;
 		}

@@ -11,6 +11,7 @@ export function initState() {
             health: 100,
             attack: 17,
             level: 0,
+            xp: 0,
             nextlevel: 60
         },
         boss: {

@@ -8,7 +8,8 @@ import {
   attackEnemy,
   changeHealth,
   changeAttack,
-  changeXp
+  changeXp,
+  addLevel
 } from '../actions';
 
 describe('actions', () => {
@@ -96,6 +97,11 @@ describe('actions', () => {
   describe('changeXp', () => {
     it('should have a type of "CHANGE_XP"', () => {
       expect(changeXp().type).toEqual('CHANGE_XP');
+    });
+  });
+  describe('addLevel', () => {
+    it('should have a type of "ADD_LEVEL"', () => {
+      expect(addLevel().type).toEqual('ADD_LEVEL');
     });
   });
 });

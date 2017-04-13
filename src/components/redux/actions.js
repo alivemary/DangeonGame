@@ -8,7 +8,8 @@ import {
     PUT_STAFF,
     CHANGE_HEALTH,
     CHANGE_ATTACK,
-    CHANGE_XP
+    CHANGE_XP,
+    ADD_LEVEL
 } from "./actionTypes";
 
 
@@ -77,5 +78,11 @@ export function changeAttack(position) {
 export function changeXp() {
     return {
         type: CHANGE_XP
+    }
+}
+
+export function addLevel() {
+    return {
+        type: ADD_LEVEL
     }
 }

@@ -7,4 +7,5 @@ export const ATTACK_ENEMY = "ATTACK_ENEMY";
 export const PUT_STAFF = "PUT_STAFF";
 export const CHANGE_HEALTH = "CHANGE_HEALTH";
 export const CHANGE_ATTACK = "CHANGE_ATTACK";
+export const ADD_LEVEL = "ADD_LEVEL";
 export const CHANGE_XP = "CHANGE_XP";

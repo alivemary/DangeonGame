@@ -2,7 +2,7 @@ import reducer from '../reducer';
 import * as types from '../actionTypes';
 import { initState } from "../store";
 
-describe(reducer, () => {
+describe("reducer", () => {
 
   let state;
 
@@ -10,7 +10,7 @@ describe(reducer, () => {
     state = initState();
   });
 
-  describe("Reducers", () => {
+  
     it('should return the initial state', function () {
       const expected = state;
       expect(reducer(undefined, {})).toEqual(expected);
@@ -173,10 +173,10 @@ describe(reducer, () => {
     });
 
     it('should handle ATTACK_ENEMY', () => {
-      const player = { ...state.player, attack: 12, health: 100 };
+      const player = { ...state.player, attack: 12, health: 100, xp: 2 };
       const boss = { ...state.boss, attack: 30, health: 300 };
       const newState = { ...state, player: player, boss: boss };
-      const expectedPlayer = { ...state.player, attack: 12, health: 70 };
+      const expectedPlayer = { ...state.player, attack: 12, health: 70, xp: 32};
       const expectedBoss = { ...state.boss, attack: 30, health: 288 };
       const expected = { ...state, player: expectedPlayer, boss: expectedBoss };
       expect(
@@ -212,6 +212,19 @@ describe(reducer, () => {
         })
       ).toEqual(expected);
     });
-  })
+
+    it('should handle ADD_LEVEL', () => {
+      const player = { ...state.player, attack: 12, level: 3, nextlevel: 9, xp: 12 };
+      const newState = { ...state, player: player};
+      const expectedPlayer = { ...state.player, attack: 24, level: 4, nextlevel: 18, xp: 3};
+      const expected = { ...state, player: expectedPlayer};
+      expect(
+        reducer(newState, {
+          type: types.ADD_LEVEL,
+        })
+      ).toEqual(expected);
+    });
+
+  
 
 });
