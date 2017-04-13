@@ -31,9 +31,9 @@ describe("<DungeonGame />", () => {
   });
 
   describe("initEmptyDungeon", () => {
-    it('returns array 40x25', () => {
+    it('returns array 60x25', () => {
       let dungeon = wrapper.instance().initEmptyDungeon();
-      expect(dungeon.length).toEqual(40);
+      expect(dungeon.length).toEqual(60);
       expect(dungeon[0].length).toEqual(25);
     });
   });
