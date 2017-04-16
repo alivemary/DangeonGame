@@ -6,8 +6,8 @@ class App extends React.Component {
         return (
             <div>
                 <div className="app-header">
-                  <h2>Roguelike Dungeon Crawler Game</h2> 
-                </div> 
+                    <h2>Roguelike Dungeon Crawler Game</h2>
+                </div>
                 <DungeonGame />
             </div>
         )

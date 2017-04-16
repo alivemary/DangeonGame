@@ -14,12 +14,12 @@ beforeEach(() => {
 });
 
 beforeEach(() => {
-  wrapper = shallow(<DungeonGame {...store}/>);
+  wrapper = shallow(<DungeonGame {...store} />);
 });
 
 describe("<DungeonGame />", () => {
   it('renders without crashing', () => {
-      shallow(<DungeonGame {...store}/>);
+    shallow(<DungeonGame {...store} />);
   });
 
   it('wraps content in a div with .dungeon-game class', () => {

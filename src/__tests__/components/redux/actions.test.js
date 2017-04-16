@@ -27,7 +27,7 @@ describe('actions', () => {
       expect(addRoomToDungeon().type).toEqual('ADD_ROOM_TO_DUNGEON');
     });
     it('should pass on the position we pass in', () => {
-      let position = {x: 13, y: 22};
+      let position = { x: 13, y: 22 };
       let length = 3;
       expect(addRoomToDungeon(position, length).position).toEqual(position);
       expect(addRoomToDungeon(position, length).length).toEqual(length);
@@ -38,7 +38,7 @@ describe('actions', () => {
       expect(addCorridorsToDungeon().type).toEqual('ADD_CORRIDORS_TO_DUNGEON');
     });
     it('should pass on the way we pass in', () => {
-      let way = {x: 13, y: 22};
+      let way = { x: 13, y: 22 };
       expect(addCorridorsToDungeon(way).way).toEqual(way);
     });
   });
@@ -47,7 +47,7 @@ describe('actions', () => {
       expect(putPlayer().type).toEqual('PUT_PLAYER');
     });
     it('should pass on the position we pass in', () => {
-      let position = {x: 13, y: 22};
+      let position = { x: 13, y: 22 };
       expect(putPlayer(position).position).toEqual(position);
     });
   });
@@ -56,7 +56,7 @@ describe('actions', () => {
       expect(putBoss().type).toEqual('PUT_BOSS');
     });
     it('should pass on the position we pass in', () => {
-      let position = {x: 13, y: 22};
+      let position = { x: 13, y: 22 };
       expect(putBoss(position).position).toEqual(position);
     });
   });
@@ -65,7 +65,7 @@ describe('actions', () => {
       expect(putStaff().type).toEqual('PUT_STAFF');
     });
     it('should pass on the position we pass in', () => {
-      let position = {x: 13, y: 22};
+      let position = { x: 13, y: 22 };
       let kind = "medicine";
       expect(putStaff(kind, position).position).toEqual(position);
       expect(putStaff(kind, position).kind).toEqual(kind);
@@ -81,7 +81,7 @@ describe('actions', () => {
       expect(changeHealth().type).toEqual('CHANGE_HEALTH');
     });
     it('should pass on the position we pass in', () => {
-      let position = {x: 13, y: 22};
+      let position = { x: 13, y: 22 };
       expect(changeHealth(position).position).toEqual(position);
     });
   });
@@ -90,7 +90,7 @@ describe('actions', () => {
       expect(changeAttack().type).toEqual('CHANGE_ATTACK');
     });
     it('should pass on the position we pass in', () => {
-      let position = {x: 13, y: 22};
+      let position = { x: 13, y: 22 };
       expect(changeAttack(position).position).toEqual(position);
     });
   });

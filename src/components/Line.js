@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 export default class Line extends Component {
   static propTypes = {
     line: PropTypes.array,
-    number:PropTypes.number,
+    number: PropTypes.number,
     player: PropTypes.string,
     boss: PropTypes.string
   }
@@ -45,8 +45,8 @@ export default class Line extends Component {
       if (Number.isInteger(element)) {
         this.props.staff.forEach(staff => {
           if (staff.id === element) {
-            classes += " "+staff.kind;
-            title = this.capitalizeFirstLetter(staff.kind)+": ";
+            classes += " " + staff.kind;
+            title = this.capitalizeFirstLetter(staff.kind) + ": ";
             switch (staff.kind) {
               case "medicine":
                 title += "health +40";
@@ -61,11 +61,11 @@ export default class Line extends Component {
         });
       }
 
-      return <div id={this.props.number+'_'+index}
-                  key={this.props.number+'_'+index}
-                  className={classes}
-                  title={title}>
-            </div>
+      return <div id={this.props.number + '_' + index}
+        key={this.props.number + '_' + index}
+        className={classes}
+        title={title}>
+      </div>
     });
     return (
       <div>
