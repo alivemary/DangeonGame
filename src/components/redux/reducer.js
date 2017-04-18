@@ -4,12 +4,15 @@ import {
     ADD_CORRIDORS_TO_DUNGEON,
     PUT_PLAYER,
     PUT_BOSS,
+    ATTACK_BOSS,
     ATTACK_ENEMY,
     PUT_STAFF,
     CHANGE_HEALTH,
     CHANGE_ATTACK,
+    CHANGE_WEAPON,
     CHANGE_XP,
-    ADD_LEVEL
+    ADD_LEVEL,
+    RESTORE_CURRENT_ENEMY
 } from "./actionTypes";
 import { initState } from "./store.js";
 
@@ -70,7 +73,6 @@ export default function reducer(state = initState(), action) {
                     position: { x: action.position.x, y: action.position.y }
                 },
                 dungeon: state.dungeon.map((element, i) => {
-
                     return element.map((el, j) => {
                         if (el === "PLAYER") {
                             return "SPACE";
@@ -80,7 +82,6 @@ export default function reducer(state = initState(), action) {
                         }
                         return el;
                     });
-
                     return element;
                 })
             }
@@ -105,12 +106,12 @@ export default function reducer(state = initState(), action) {
                 })
             }
 
-        case ATTACK_ENEMY:
+        case ATTACK_BOSS:
             return {
                 ...state,
                 boss: {
                     ...state.boss,
-                    health: state.boss.health - state.player.attack
+                    health: state.boss.health - state.player.attack - action.bonus
                 },
                 player: {
                     ...state.player,
@@ -118,6 +119,22 @@ export default function reducer(state = initState(), action) {
                     xp: state.player.xp + state.boss.attack
                 }
             }
+
+        case ATTACK_ENEMY:
+            return {
+                 ...state,
+                current_enemy: {
+                    ...state.current_enemy,
+                    health: state.current_enemy.health - state.player.attack - action.bonus,
+                    position: action.position
+                },
+                player: {
+                    ...state.player,
+                    health: state.player.health - state.current_enemy.attack,
+                    xp: state.player.xp + state.current_enemy.attack
+                }
+            }
+
 
         case PUT_STAFF:
             let id = state.staff.length + 1;
@@ -147,7 +164,7 @@ export default function reducer(state = initState(), action) {
                 staff: state.staff.filter(element => !(element.position.x === action.position.x && element.position.y === action.position.y)),
                 player: {
                     ...state.player,
-                    health: state.player.health + 40
+                    health: state.player.health + 60
                 }
             }
 
@@ -161,6 +178,17 @@ export default function reducer(state = initState(), action) {
                 }
             }
 
+        case CHANGE_WEAPON:
+            return {
+                ...state,
+                staff: state.staff.filter(element => !(element.position.x === action.position.x && element.position.y === action.position.y)),
+                player: {
+                    ...state.player,
+                    weapon: action.kind
+                }
+            }
+
+
         case ADD_LEVEL:
             return {
                 ...state,
@@ -170,6 +198,17 @@ export default function reducer(state = initState(), action) {
                     level: state.player.level + 1,
                     xp: state.player.xp - state.player.nextlevel,
                     nextlevel: state.player.nextlevel * 2
+                }
+            }
+
+        case RESTORE_CURRENT_ENEMY: 
+            return {
+                ...state,
+                staff: state.staff.filter(element => !(element.position.x === action.position.x && element.position.y === action.position.y)),
+                current_enemy: {
+                    position: { x: 0, y: 0 },
+                    health: 60,
+                    attack: 5
                 }
             }
 

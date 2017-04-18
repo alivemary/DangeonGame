@@ -5,9 +5,11 @@ import {
   putPlayer,
   putBoss,
   putStaff,
+  attackBoss,
   attackEnemy,
   changeHealth,
   changeAttack,
+  changeWeapon,
   changeXp,
   addLevel
 } from '../actions';
@@ -71,6 +73,16 @@ describe('actions', () => {
       expect(putStaff(kind, position).kind).toEqual(kind);
     });
   });
+  describe('attackBoss', () => {
+    it('should have a type of "ATTACK_BOSS"', () => {
+      let bonus = 10;
+      expect(attackBoss(bonus).type).toEqual('ATTACK_BOSS');
+    });
+    it('should pass on the bonus we pass in', () => {
+      let bonus = 10;
+      expect(attackBoss(bonus).bonus).toEqual(bonus);
+    });
+  });
   describe('attackEnemy', () => {
     it('should have a type of "ATTACK_ENEMY"', () => {
       expect(attackEnemy().type).toEqual('ATTACK_ENEMY');
@@ -92,6 +104,23 @@ describe('actions', () => {
     it('should pass on the position we pass in', () => {
       let position = { x: 13, y: 22 };
       expect(changeAttack(position).position).toEqual(position);
+    });
+  });
+  describe('changeWeapon', () => {
+    it('should have a type of "CHANGE_WEAPON"', () => {
+      let position = { x: 13, y: 22 };
+      let kind = 'something';
+      expect(changeWeapon(position, kind).type).toEqual('CHANGE_WEAPON');
+    });
+    it('should pass on the position we pass in', () => {
+      let position = { x: 13, y: 22 };
+      let kind = 'something';
+      expect(changeWeapon(position, kind).position).toEqual(position);
+    });
+    it('should pass on the kind we pass in', () => {
+      let position = { x: 13, y: 22 };
+      let kind = 'something';
+      expect(changeWeapon(position, kind).kind).toEqual(kind);
     });
   });
   describe('changeXp', () => {

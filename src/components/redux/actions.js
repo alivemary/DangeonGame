@@ -4,12 +4,15 @@ import {
     ADD_CORRIDORS_TO_DUNGEON,
     PUT_PLAYER,
     PUT_BOSS,
+    ATTACK_BOSS,
     ATTACK_ENEMY,
     PUT_STAFF,
     CHANGE_HEALTH,
     CHANGE_ATTACK,
+    CHANGE_WEAPON,
     CHANGE_XP,
-    ADD_LEVEL
+    ADD_LEVEL,
+    RESTORE_CURRENT_ENEMY
 } from "./actionTypes";
 
 
@@ -49,9 +52,17 @@ export function putBoss(position) {
     }
 }
 
-export function attackEnemy() {
+export function attackBoss(bonus) {
     return {
-        type: ATTACK_ENEMY
+        type: ATTACK_BOSS,
+        bonus
+    }
+}
+
+export function attackEnemy(position) {
+    return {
+        type: ATTACK_ENEMY,
+        position
     }
 }
 
@@ -75,6 +86,13 @@ export function changeAttack(position) {
         position
     }
 }
+export function changeWeapon(position, kind) {
+    return {
+        type: CHANGE_WEAPON,
+        position,
+        kind
+    }
+}
 export function changeXp() {
     return {
         type: CHANGE_XP
@@ -84,5 +102,12 @@ export function changeXp() {
 export function addLevel() {
     return {
         type: ADD_LEVEL
+    }
+}
+
+export function restoreCurrentEnemy(position) {
+    return {
+        type: RESTORE_CURRENT_ENEMY,
+        position
     }
 }

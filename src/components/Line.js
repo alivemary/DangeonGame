@@ -54,6 +54,9 @@ export default class Line extends Component {
               case "weapon":
                 title += "attack +10";
                 break;
+              case "enemy":
+                title += "health: 60, attack: 5";
+                break;
               default:
                 title += " ";
             }

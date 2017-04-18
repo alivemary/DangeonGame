@@ -31,21 +31,48 @@ export class DungeonGame extends React.Component {
 		}
 	}
 
-	checkVictory() {
-		if (this.props.boss.health <= 0 || this.props.player.health <= 0) {
+	checkVictory(enemyHealth, playerHealth) {
+		if (enemyHealth <= 0 || playerHealth <= 0) {
 			return true;
 		}
 		return false;
 	}
 
+	calculateBonus(weapon) {
+		let weaponTypes = ["stick", "dagger", "blade", "short sword", "long sword", "great sword", "rappier"];
+		for (let i=0; i<weaponTypes.length; i++) {
+			if (weapon === weaponTypes[i]) {
+				return (i+1)*10;
+			}
+		}
+		return 0;
+	}
+
+	attackEnemy(position) {
+		if (this.props.current_enemy.health > 0 && this.props.player.health>0) {
+			this.props.dispatch(actions.attackEnemy(position, this.calculateBonus(this.props.player.weapon)));
+			this.checkLevel(this.props.player);
+			if (this.checkVictory(this.props.current_enemy.health, this.props.player.health)) {
+				this.props.dispatch(actions.putPlayer(position));
+				this.props.dispatch(actions.restoreCurrentEnemy(position));
+			}
+		}
+		
+	}
+	
+	movePlayer(position) {
+		if (this.props.dungeon[position.x][position.y] !== 'WALL') {
+			this.props.dispatch(actions.putPlayer(position));
+		}
+	}
+
 	putPlayer(position) {
 		if (this.props.boss.position.x === position.x && this.props.boss.position.y === position.y) {
 			if (this.props.boss.health > 0 && this.props.player.health > 0) {
-				this.props.dispatch(actions.attackEnemy());
+				this.props.dispatch(actions.attackBoss(this.calculateBonus(this.props.player.weapon)));
 				this.checkLevel(this.props.player);
-				if (this.checkVictory()) {
+				if (this.checkVictory(this.props.boss.health, this.props.player.health)) {
 					let winText = (this.props.player.health <= 0) ? "You loose!" : "You win!";
-					this.props.dispatch(actions.putPlayer(position));
 					alert(winText);
 				}
 			}
@@ -55,19 +82,24 @@ export class DungeonGame extends React.Component {
 			if (item.position.x === position.x && item.position.y === position.y) {
 				if (item.kind === "medicine") {
 					this.props.dispatch(actions.changeHealth(position));
+					
 				}
 				if (item.kind === "weapon") {
-					this.props.dispatch(actions.changeAttack(position));
+					let weaponTypes = ["stick", "dagger", "blade", "short sword", "long sword", "great sword", "rappier"];
+					let nextWeapon = weaponTypes[weaponTypes.indexOf(this.props.player.weapon)+1];
+					this.props.dispatch(actions.changeWeapon(position, nextWeapon));
+					
+				}
+				if (item.kind === "enemy") {
+					this.attackEnemy(position);
 				}
 			}
 		});
-		if (this.props.dungeon[position.x][position.y] !== 'WALL') {
-			this.props.dispatch(actions.putPlayer(position));
-		}
+		this.movePlayer(position);
 	}
 
 	putStaff(position) {
-		let staffTypes = ["medicine", "weapon"];
+		let staffTypes = ["medicine", "weapon", "enemy"];
 		let currentStaff = staffTypes[Math.floor(Math.random() * staffTypes.length)];
 		this.props.dispatch(actions.putStaff(currentStaff, position));
 	}
@@ -139,6 +171,8 @@ export class DungeonGame extends React.Component {
 
 		let statsString = "Health: " + this.props.player.health
 			+ " Attack: " + this.props.player.attack
+			+ " Weapon: " + this.props.player.weapon
+			+ " XP: " + this.props.player.xp
 			+ " Level: " + this.props.player.level;
 
 		let dungeonList = this.props.dungeon.map((line, index) => {
@@ -169,6 +203,7 @@ export default connect((store) => {
 		rooms: store.rooms,
 		player: store.player,
 		boss: store.boss,
+		current_enemy: store.current_enemy,
 		staff: store.staff
 	}
 })(DungeonGame);

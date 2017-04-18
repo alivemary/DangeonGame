@@ -172,16 +172,36 @@ describe("reducer", () => {
     ).toEqual(expected);
   });
 
-  it('should handle ATTACK_ENEMY', () => {
+  it('should handle ATTACK_BOSS', () => {
     const player = { ...state.player, attack: 12, health: 100, xp: 2 };
     const boss = { ...state.boss, attack: 30, health: 300 };
     const newState = { ...state, player: player, boss: boss };
+    const bonus = 10;
     const expectedPlayer = { ...state.player, attack: 12, health: 70, xp: 32 };
-    const expectedBoss = { ...state.boss, attack: 30, health: 288 };
+    const expectedBoss = { ...state.boss, attack: 30, health: 278 };
     const expected = { ...state, player: expectedPlayer, boss: expectedBoss };
+    
+    expect(
+      reducer(newState, {
+        type: types.ATTACK_BOSS,
+        bonus
+      })
+    ).toEqual(expected);
+  });
+
+
+  it('should handle ATTACK_ENEMY', () => {
+    const position = { x: 3, y: 2 };
+    const staff = [{ id: 1, kind: "enemy", position: position }];
+    const player = { ...state.player, xp: 2 };
+    const newState = { ...state, staff: staff, player: player };
+    const expectedStaff = [];
+    const expectedPlayer = { ...state.player, xp: 32 };
+    const expected = { ...state, staff: expectedStaff, player: expectedPlayer };
     expect(
       reducer(newState, {
         type: types.ATTACK_ENEMY,
+        position
       })
     ).toEqual(expected);
   });
@@ -209,6 +229,21 @@ describe("reducer", () => {
       reducer(newState, {
         type: types.CHANGE_ATTACK,
         position: position
+      })
+    ).toEqual(expected);
+  });
+
+  it('should handle CHANGE_WEAPON', () => {
+    const position = { x: 12, y: 10 };
+    const kind = "something";
+    const staff = [{ id: 1, kind: "weapon", position: position }];
+    const newState = { ...state, staff: staff, player: { ...state.player, weapon: "stick" } };
+    const expected = { ...state, staff: [], player: { ...state.player, weapon: kind } };
+    expect(
+      reducer(newState, {
+        type: types.CHANGE_WEAPON,
+        position: position,
+        kind: kind
       })
     ).toEqual(expected);
   });
