@@ -12,7 +12,7 @@ import {
     CHANGE_WEAPON,
     CHANGE_XP,
     ADD_LEVEL,
-    RESTORE_CURRENT_ENEMY
+    REMOVE_ENEMY
 } from "./actionTypes";
 
 
@@ -45,9 +45,10 @@ export function putPlayer(position) {
     }
 }
 
-export function putBoss(position) {
+export function putBoss(id, position) {
     return {
         type: PUT_BOSS,
+        id,
         position
     }
 }
@@ -59,18 +60,19 @@ export function attackBoss(bonus) {
     }
 }
 
-export function attackEnemy(position) {
+export function attackEnemy(id, bonus, enemyAttack) {
     return {
         type: ATTACK_ENEMY,
-        position
+        id, 
+        bonus,
+        enemyAttack
     }
 }
 
-export function putStaff(kind, position) {
+export function putStaff(staff) {
     return {
         type: PUT_STAFF,
-        kind,
-        position
+        staff
     }
 }
 
@@ -105,9 +107,9 @@ export function addLevel() {
     }
 }
 
-export function restoreCurrentEnemy(position) {
+export function removeEnemy(position) {
     return {
-        type: RESTORE_CURRENT_ENEMY,
+        type: REMOVE_ENEMY,
         position
     }
 }

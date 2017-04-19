@@ -12,7 +12,7 @@ import {
     CHANGE_WEAPON,
     CHANGE_XP,
     ADD_LEVEL,
-    RESTORE_CURRENT_ENEMY
+    REMOVE_ENEMY
 } from "./actionTypes";
 import { initState } from "./store.js";
 
@@ -89,10 +89,12 @@ export default function reducer(state = initState(), action) {
         case PUT_BOSS:
             return {
                 ...state,
-                boss: {
-                    ...state.boss,
-                    position: { x: action.position.x, y: action.position.y }
-                },
+                staff: state.staff.map((element) => {
+                    if (element.id === action.id) {
+                        return {...element, kind: "enemy", boss: true, health: 300, attack: 20};
+                    }
+                    return element;
+                }),
                 dungeon: state.dungeon.map((element, i) => {
                     if (i === action.position.x) {
                         return element.map((el, j) => {
@@ -123,32 +125,30 @@ export default function reducer(state = initState(), action) {
         case ATTACK_ENEMY:
             return {
                  ...state,
-                current_enemy: {
-                    ...state.current_enemy,
-                    health: state.current_enemy.health - state.player.attack - action.bonus,
-                    position: action.position
-                },
+                staff: state.staff.map(element => {
+                    if (element.id === action.id) {
+                        return {...element, 
+                                health: element.health - state.player.attack - action.bonus};
+                    }
+                    return element;
+                }),
                 player: {
                     ...state.player,
-                    health: state.player.health - state.current_enemy.attack,
-                    xp: state.player.xp + state.current_enemy.attack
+                    health: state.player.health - action.enemyAttack,
+                    xp: state.player.xp + action.enemyAttack
                 }
             }
 
 
         case PUT_STAFF:
-            let id = state.staff.length + 1;
+            let id = state.staff.length+1;
             return {
                 ...state,
-                staff: [...state.staff, {
-                    id: id,
-                    kind: action.kind,
-                    position: action.position
-                }],
+                staff: [...state.staff, {...action.staff, id: id}],
                 dungeon: state.dungeon.map((element, i) => {
-                    if (i === action.position.x) {
+                    if (i === action.staff.position.x) {
                         return element.map((el, j) => {
-                            if (j === action.position.y) {
+                            if (j === action.staff.position.y) {
                                 return id;
                             }
                             return el;
@@ -201,15 +201,10 @@ export default function reducer(state = initState(), action) {
                 }
             }
 
-        case RESTORE_CURRENT_ENEMY: 
+        case REMOVE_ENEMY: 
             return {
                 ...state,
                 staff: state.staff.filter(element => !(element.position.x === action.position.x && element.position.y === action.position.y)),
-                current_enemy: {
-                    position: { x: 0, y: 0 },
-                    health: 60,
-                    attack: 5
-                }
             }
 
         default:

@@ -49,7 +49,7 @@ export default class Line extends Component {
             title = this.capitalizeFirstLetter(staff.kind) + ": ";
             switch (staff.kind) {
               case "medicine":
-                title += "health +40";
+                title += "health +60";
                 break;
               case "weapon":
                 title += "attack +10";

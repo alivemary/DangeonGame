@@ -11,4 +11,4 @@ export const CHANGE_ATTACK = "CHANGE_ATTACK";
 export const CHANGE_WEAPON = "CHANGE_WEAPON";
 export const ADD_LEVEL = "ADD_LEVEL";
 export const CHANGE_XP = "CHANGE_XP";
-export const RESTORE_CURRENT_ENEMY = "RESTORE_CURRENT_ENEMY";
+export const REMOVE_ENEMY = "REMOVE_ENEMY";
