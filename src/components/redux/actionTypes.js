@@ -8,5 +8,4 @@ export const PUT_STAFF = "PUT_STAFF";
 export const CHANGE_HEALTH = "CHANGE_HEALTH";
 export const CHANGE_WEAPON = "CHANGE_WEAPON";
 export const ADD_LEVEL = "ADD_LEVEL";
-export const CHANGE_XP = "CHANGE_XP";
 export const REMOVE_ENEMY = "REMOVE_ENEMY";

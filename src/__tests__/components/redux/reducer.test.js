@@ -1,22 +1,20 @@
-import reducer from '../reducer';
-import * as types from '../actionTypes';
+import reducer from "../reducer";
+import * as types from "../actionTypes";
 import { initState } from "../store";
 
 describe("reducer", () => {
-
   let state;
 
   beforeEach(() => {
     state = initState();
   });
 
-
-  it('should return the initial state', function () {
+  it("should return the initial state", function() {
     const expected = state;
     expect(reducer(undefined, {})).toEqual(expected);
   });
 
-  it('should handle ADD_DUNGEON', () => {
+  it("should handle ADD_DUNGEON", () => {
     const dungeon = ["WALL", "SPACE", 14];
     const expected = { ...state, dungeon: dungeon };
     expect(
@@ -27,24 +25,24 @@ describe("reducer", () => {
     ).toEqual(expected);
   });
 
-  it('should handle ADD_ROOM_TO_DUNGEON', () => {
+  it("should handle ADD_ROOM_TO_DUNGEON", () => {
     const position = { x: 3, y: 2 };
     const length = 2;
     const initDungeon = [
-      ['WALL', 'WALL', 'WALL', 'WALL', 'WALL', 'WALL'],
-      ['WALL', 'WALL', 'WALL', 'WALL', 'WALL', 'WALL'],
-      ['WALL', 'WALL', 'WALL', 'WALL', 'WALL', 'WALL'],
-      ['WALL', 'WALL', 'WALL', 'WALL', 'WALL', 'WALL'],
-      ['WALL', 'WALL', 'WALL', 'WALL', 'WALL', 'WALL'],
-      ['WALL', 'WALL', 'WALL', 'WALL', 'WALL', 'WALL']
+      ["WALL", "WALL", "WALL", "WALL", "WALL", "WALL"],
+      ["WALL", "WALL", "WALL", "WALL", "WALL", "WALL"],
+      ["WALL", "WALL", "WALL", "WALL", "WALL", "WALL"],
+      ["WALL", "WALL", "WALL", "WALL", "WALL", "WALL"],
+      ["WALL", "WALL", "WALL", "WALL", "WALL", "WALL"],
+      ["WALL", "WALL", "WALL", "WALL", "WALL", "WALL"]
     ];
     const dungeon = [
-      ['WALL', 'WALL', 'WALL', 'WALL', 'WALL', 'WALL'],
-      ['WALL', 'WALL', 'WALL', 'WALL', 'WALL', 'WALL'],
-      ['WALL', 'SPACE', 'SPACE', 'SPACE', 'SPACE', 'WALL'],
-      ['WALL', 'SPACE', 'SPACE', 'SPACE', 'SPACE', 'WALL'],
-      ['WALL', 'SPACE', 'SPACE', 'SPACE', 'SPACE', 'WALL'],
-      ['WALL', 'SPACE', 'SPACE', 'SPACE', 'SPACE', 'WALL']
+      ["WALL", "WALL", "WALL", "WALL", "WALL", "WALL"],
+      ["WALL", "WALL", "WALL", "WALL", "WALL", "WALL"],
+      ["WALL", "SPACE", "SPACE", "SPACE", "SPACE", "WALL"],
+      ["WALL", "SPACE", "SPACE", "SPACE", "SPACE", "WALL"],
+      ["WALL", "SPACE", "SPACE", "SPACE", "SPACE", "WALL"],
+      ["WALL", "SPACE", "SPACE", "SPACE", "SPACE", "WALL"]
     ];
     const newState = { ...state, dungeon: initDungeon };
     const expected = { ...newState, dungeon: dungeon, rooms: [position] };
@@ -57,161 +55,283 @@ describe("reducer", () => {
     ).toEqual(expected);
   });
 
-  it('should handle ADD_CORRIDORS_TO_DUNGEON', () => {
+  it("should handle ADD_CORRIDORS_TO_DUNGEON", () => {
     const room1 = { x: 4, y: 4 };
     const room2 = { x: 1, y: 1 };
     const initDungeon = [
-      ['WALL', 'WALL', 'WALL', 'WALL', 'WALL', 'WALL'],
-      ['WALL', 'SPACE', 'WALL', 'WALL', 'WALL', 'WALL'],
-      ['WALL', 'WALL', 'WALL', 'WALL', 'WALL', 'WALL'],
-      ['WALL', 'WALL', 'WALL', 'WALL', 'WALL', 'WALL'],
-      ['WALL', 'WALL', 'WALL', 'WALL', 'SPACE', 'WALL'],
-      ['WALL', 'WALL', 'WALL', 'WALL', 'WALL', 'WALL']
+      ["WALL", "WALL", "WALL", "WALL", "WALL", "WALL"],
+      ["WALL", "SPACE", "WALL", "WALL", "WALL", "WALL"],
+      ["WALL", "WALL", "WALL", "WALL", "WALL", "WALL"],
+      ["WALL", "WALL", "WALL", "WALL", "WALL", "WALL"],
+      ["WALL", "WALL", "WALL", "WALL", "SPACE", "WALL"],
+      ["WALL", "WALL", "WALL", "WALL", "WALL", "WALL"]
     ];
     const dungeon = [
-      ['WALL', 'WALL', 'WALL', 'WALL', 'WALL', 'WALL'],
-      ['WALL', 'SPACE', 'SPACE', 'SPACE', 'SPACE', 'WALL'],
-      ['WALL', 'WALL', 'WALL', 'WALL', 'SPACE', 'WALL'],
-      ['WALL', 'WALL', 'WALL', 'WALL', 'SPACE', 'WALL'],
-      ['WALL', 'WALL', 'WALL', 'WALL', 'SPACE', 'WALL'],
-      ['WALL', 'WALL', 'WALL', 'WALL', 'WALL', 'WALL']
+      ["WALL", "WALL", "WALL", "WALL", "WALL", "WALL"],
+      ["WALL", "SPACE", "SPACE", "SPACE", "SPACE", "WALL"],
+      ["WALL", "WALL", "WALL", "WALL", "SPACE", "WALL"],
+      ["WALL", "WALL", "WALL", "WALL", "SPACE", "WALL"],
+      ["WALL", "WALL", "WALL", "WALL", "SPACE", "WALL"],
+      ["WALL", "WALL", "WALL", "WALL", "WALL", "WALL"]
     ];
     const newState = { ...state, dungeon: initDungeon };
     const expected = { ...newState, dungeon: dungeon };
     expect(
       reducer(newState, {
         type: types.ADD_CORRIDORS_TO_DUNGEON,
-        way: { room1, room2 },
+        way: { room1, room2 }
       })
     ).toEqual(expected);
   });
 
-  it('should handle PUT_PLAYER', () => {
+  it("should handle PUT_PLAYER", () => {
     const position = { x: 3, y: 2 };
     const initDungeon = [
-      ['WALL', 'WALL', 'WALL', 'WALL', 'WALL', 'WALL'],
-      ['WALL', 'WALL', 'WALL', 'WALL', 'WALL', 'WALL'],
-      ['WALL', 'SPACE', 'PLAYER', 'SPACE', 'SPACE', 'WALL'],
-      ['WALL', 'SPACE', 'SPACE', 'SPACE', 'SPACE', 'WALL'],
-      ['WALL', 'SPACE', 'SPACE', 'SPACE', 'SPACE', 'WALL'],
-      ['WALL', 'SPACE', 'SPACE', 'SPACE', 'SPACE', 'WALL']
+      ["WALL", "WALL", "WALL", "WALL", "WALL", "WALL"],
+      ["WALL", "WALL", "WALL", "WALL", "WALL", "WALL"],
+      ["WALL", "SPACE", "PLAYER", "SPACE", "SPACE", "WALL"],
+      ["WALL", "SPACE", "SPACE", "SPACE", "SPACE", "WALL"],
+      ["WALL", "SPACE", "SPACE", "SPACE", "SPACE", "WALL"],
+      ["WALL", "SPACE", "SPACE", "SPACE", "SPACE", "WALL"]
     ];
     const dungeon = [
-      ['WALL', 'WALL', 'WALL', 'WALL', 'WALL', 'WALL'],
-      ['WALL', 'WALL', 'WALL', 'WALL', 'WALL', 'WALL'],
-      ['WALL', 'SPACE', 'SPACE', 'SPACE', 'SPACE', 'WALL'],
-      ['WALL', 'SPACE', 'PLAYER', 'SPACE', 'SPACE', 'WALL'],
-      ['WALL', 'SPACE', 'SPACE', 'SPACE', 'SPACE', 'WALL'],
-      ['WALL', 'SPACE', 'SPACE', 'SPACE', 'SPACE', 'WALL']
+      ["WALL", "WALL", "WALL", "WALL", "WALL", "WALL"],
+      ["WALL", "WALL", "WALL", "WALL", "WALL", "WALL"],
+      ["WALL", "SPACE", "SPACE", "SPACE", "SPACE", "WALL"],
+      ["WALL", "SPACE", "PLAYER", "SPACE", "SPACE", "WALL"],
+      ["WALL", "SPACE", "SPACE", "SPACE", "SPACE", "WALL"],
+      ["WALL", "SPACE", "SPACE", "SPACE", "SPACE", "WALL"]
     ];
     const newState = { ...state, dungeon: initDungeon };
-    const expected = { ...newState, dungeon: dungeon, player: { ...state.player, position: position } };
+    const expected = {
+      ...newState,
+      dungeon: dungeon,
+      player: { ...state.player, position: position }
+    };
     expect(
       reducer(newState, {
         type: types.PUT_PLAYER,
-        position: position,
+        position: position
       })
     ).toEqual(expected);
   });
 
-  it('should handle PUT_BOSS', () => {
-    const position = { x: 3, y: 2 };
-    const initDungeon = [
-      ['WALL', 'WALL', 'WALL', 'WALL', 'WALL', 'WALL'],
-      ['WALL', 'WALL', 'WALL', 'WALL', 'WALL', 'WALL'],
-      ['WALL', 'SPACE', 'SPACE', 'SPACE', 'SPACE', 'WALL'],
-      ['WALL', 'SPACE', 'SPACE', 'SPACE', 'SPACE', 'WALL'],
-      ['WALL', 'SPACE', 'SPACE', 'SPACE', 'SPACE', 'WALL'],
-      ['WALL', 'SPACE', 'SPACE', 'SPACE', 'SPACE', 'WALL']
+  it("should handle PUT_BOSS", () => {
+    const id = 3;
+    const staff = [
+      { id: 1, kind: "medicine", position: { x: 3, y: 4 } },
+      {
+        id: 2,
+        boss: false,
+        kind: "enemy",
+        health: 60,
+        attack: 5,
+        position: { x: 3, y: 4 }
+      },
+      { id: 3, kind: "medicine", position: { x: 3, y: 4 } },
+      {
+        id: 4,
+        boss: false,
+        kind: "enemy",
+        health: 60,
+        attack: 5,
+        position: { x: 3, y: 4 }
+      },
+      { id: 5, kind: "medicine", position: { x: 3, y: 4 } }
     ];
-    const dungeon = [
-      ['WALL', 'WALL', 'WALL', 'WALL', 'WALL', 'WALL'],
-      ['WALL', 'WALL', 'WALL', 'WALL', 'WALL', 'WALL'],
-      ['WALL', 'SPACE', 'SPACE', 'SPACE', 'SPACE', 'WALL'],
-      ['WALL', 'SPACE', 'BOSS', 'SPACE', 'SPACE', 'WALL'],
-      ['WALL', 'SPACE', 'SPACE', 'SPACE', 'SPACE', 'WALL'],
-      ['WALL', 'SPACE', 'SPACE', 'SPACE', 'SPACE', 'WALL']
+    const newState = { ...state, staff: staff };
+    const expectedStaff = [
+      { id: 1, kind: "medicine", position: { x: 3, y: 4 } },
+      {
+        id: 2,
+        boss: false,
+        kind: "enemy",
+        health: 60,
+        attack: 5,
+        position: { x: 3, y: 4 }
+      },
+      {
+        id: 3,
+        boss: true,
+        kind: "enemy",
+        health: 300,
+        attack: 20,
+        position: { x: 3, y: 4 }
+      },
+      {
+        id: 4,
+        boss: false,
+        kind: "enemy",
+        health: 60,
+        attack: 5,
+        position: { x: 3, y: 4 }
+      },
+      { id: 5, kind: "medicine", position: { x: 3, y: 4 } }
     ];
-    const newState = { ...state, dungeon: initDungeon };
-    const expected = { ...newState, dungeon: dungeon, boss: { ...state.boss, position: position } };
+    const expected = { ...newState, staff: expectedStaff };
     expect(
       reducer(newState, {
         type: types.PUT_BOSS,
-        position: position,
+        id: id
       })
     ).toEqual(expected);
   });
 
-  it('should handle PUT_STAFF', () => {
-    const position = { x: 3, y: 2 };
-    const kind = "medicine";
+  it("should handle PUT_STAFF", () => {
+    const staff = { id: 0, kind: "medicine", position: { x: 3, y: 2 } };
     const initDungeon = [
-      ['WALL', 'WALL', 'WALL', 'WALL', 'WALL', 'WALL'],
-      ['WALL', 'WALL', 'WALL', 'WALL', 'WALL', 'WALL'],
-      ['WALL', 'SPACE', 'SPACE', 'SPACE', 'SPACE', 'WALL'],
-      ['WALL', 'SPACE', 'SPACE', 'SPACE', 'SPACE', 'WALL'],
-      ['WALL', 'SPACE', 'SPACE', 'SPACE', 'SPACE', 'WALL'],
-      ['WALL', 'SPACE', 'SPACE', 'SPACE', 'SPACE', 'WALL']
+      ["WALL", "WALL", "WALL", "WALL", "WALL", "WALL"],
+      ["WALL", "WALL", "WALL", "WALL", "WALL", "WALL"],
+      ["WALL", "SPACE", "SPACE", "SPACE", "SPACE", "WALL"],
+      ["WALL", "SPACE", "SPACE", "SPACE", "SPACE", "WALL"],
+      ["WALL", "SPACE", "SPACE", "SPACE", "SPACE", "WALL"],
+      ["WALL", "SPACE", "SPACE", "SPACE", "SPACE", "WALL"]
+    ];
+    const initStaff = [
+      { id: 1, kind: "medicine", position: { x: 3, y: 4 } },
+      {
+        id: 2,
+        boss: false,
+        kind: "enemy",
+        health: 60,
+        attack: 5,
+        position: { x: 3, y: 4 }
+      },
+      { id: 3, kind: "medicine", position: { x: 3, y: 4 } },
+      {
+        id: 4,
+        boss: false,
+        kind: "enemy",
+        health: 60,
+        attack: 5,
+        position: { x: 3, y: 4 }
+      },
+      { id: 5, kind: "medicine", position: { x: 3, y: 4 } }
     ];
     const dungeon = [
-      ['WALL', 'WALL', 'WALL', 'WALL', 'WALL', 'WALL'],
-      ['WALL', 'WALL', 'WALL', 'WALL', 'WALL', 'WALL'],
-      ['WALL', 'SPACE', 'SPACE', 'SPACE', 'SPACE', 'WALL'],
-      ['WALL', 'SPACE', 1, 'SPACE', 'SPACE', 'WALL'],
-      ['WALL', 'SPACE', 'SPACE', 'SPACE', 'SPACE', 'WALL'],
-      ['WALL', 'SPACE', 'SPACE', 'SPACE', 'SPACE', 'WALL']
+      ["WALL", "WALL", "WALL", "WALL", "WALL", "WALL"],
+      ["WALL", "WALL", "WALL", "WALL", "WALL", "WALL"],
+      ["WALL", "SPACE", "SPACE", "SPACE", "SPACE", "WALL"],
+      ["WALL", "SPACE", 6, "SPACE", "SPACE", "WALL"],
+      ["WALL", "SPACE", "SPACE", "SPACE", "SPACE", "WALL"],
+      ["WALL", "SPACE", "SPACE", "SPACE", "SPACE", "WALL"]
     ];
-    const newState = { ...state, dungeon: initDungeon };
-    const expected = { ...newState, dungeon: dungeon, staff: [{ id: 1, kind: "medicine", position: position }] };
+    const expectedStaff = [
+      { id: 1, kind: "medicine", position: { x: 3, y: 4 } },
+      {
+        id: 2,
+        boss: false,
+        kind: "enemy",
+        health: 60,
+        attack: 5,
+        position: { x: 3, y: 4 }
+      },
+      { id: 3, kind: "medicine", position: { x: 3, y: 4 } },
+      {
+        id: 4,
+        boss: false,
+        kind: "enemy",
+        health: 60,
+        attack: 5,
+        position: { x: 3, y: 4 }
+      },
+      { id: 5, kind: "medicine", position: { x: 3, y: 4 } },
+      { id: 6, kind: "medicine", position: { x: 3, y: 2 } }
+    ];
+    const newState = { ...state, staff: initStaff, dungeon: initDungeon };
+    const expected = { ...newState, staff: expectedStaff, dungeon: dungeon };
     expect(
       reducer(newState, {
         type: types.PUT_STAFF,
-        kind: kind,
-        position: position,
+        staff: staff
       })
     ).toEqual(expected);
   });
 
-  it('should handle ATTACK_BOSS', () => {
-    const player = { ...state.player, attack: 12, health: 100, xp: 2 };
-    const boss = { ...state.boss, attack: 30, health: 300 };
-    const newState = { ...state, player: player, boss: boss };
-    const bonus = 10;
-    const expectedPlayer = { ...state.player, attack: 12, health: 70, xp: 32 };
-    const expectedBoss = { ...state.boss, attack: 30, health: 278 };
-    const expected = { ...state, player: expectedPlayer, boss: expectedBoss };
-    
-    expect(
-      reducer(newState, {
-        type: types.ATTACK_BOSS,
-        bonus
-      })
-    ).toEqual(expected);
-  });
-
-
-  it('should handle ATTACK_ENEMY', () => {
-    const position = { x: 3, y: 2 };
-    const staff = [{ id: 1, kind: "enemy", position: position }];
-    const player = { ...state.player, xp: 2 };
+  it("should handle ATTACK_ENEMY", () => {
+    const id = 3;
+    const bonus = 40;
+    const enemyAttack = 20;
+    const staff = [
+      { id: 1, kind: "medicine", position: { x: 3, y: 4 } },
+      {
+        id: 2,
+        boss: false,
+        kind: "enemy",
+        health: 60,
+        attack: 5,
+        position: { x: 3, y: 4 }
+      },
+      {
+        id: 3,
+        boss: true,
+        kind: "enemy",
+        health: 300,
+        attack: 20,
+        position: { x: 3, y: 4 }
+      },
+      {
+        id: 4,
+        boss: false,
+        kind: "enemy",
+        health: 60,
+        attack: 5,
+        position: { x: 3, y: 4 }
+      },
+      { id: 5, kind: "medicine", position: { x: 3, y: 4 } }
+    ];
+    const player = { ...state.player, attack: 10, health: 100, xp: 2 };
     const newState = { ...state, staff: staff, player: player };
-    const expectedStaff = [];
-    const expectedPlayer = { ...state.player, xp: 32 };
+    const expectedStaff = [
+      { id: 1, kind: "medicine", position: { x: 3, y: 4 } },
+      {
+        id: 2,
+        boss: false,
+        kind: "enemy",
+        health: 60,
+        attack: 5,
+        position: { x: 3, y: 4 }
+      },
+      {
+        id: 3,
+        boss: true,
+        kind: "enemy",
+        health: 250,
+        attack: 20,
+        position: { x: 3, y: 4 }
+      },
+      {
+        id: 4,
+        boss: false,
+        kind: "enemy",
+        health: 60,
+        attack: 5,
+        position: { x: 3, y: 4 }
+      },
+      { id: 5, kind: "medicine", position: { x: 3, y: 4 } }
+    ];
+    const expectedPlayer = { ...state.player, health: 80, xp: 22 };
     const expected = { ...state, staff: expectedStaff, player: expectedPlayer };
     expect(
       reducer(newState, {
         type: types.ATTACK_ENEMY,
-        position
+        id: id,
+        bonus: bonus,
+        enemyAttack: enemyAttack
       })
     ).toEqual(expected);
   });
 
-  it('should handle CHANGE_HEALTH', () => {
+  it("should handle CHANGE_HEALTH", () => {
     const position = { x: 12, y: 10 };
     const staff = [{ id: 1, kind: "medicine", position: position }];
     const player = { ...state.player, health: 100 };
     const newState = { ...state, staff: staff, player: player };
-    const expected = { ...state, staff: [], player: { ...state.player, health: 140 } };
+    const expected = {
+      ...state,
+      staff: [],
+      player: { ...state.player, health: 160 }
+    };
     expect(
       reducer(newState, {
         type: types.CHANGE_HEALTH,
@@ -220,25 +340,20 @@ describe("reducer", () => {
     ).toEqual(expected);
   });
 
-  it('should handle CHANGE_ATTACK', () => {
-    const position = { x: 12, y: 10 };
-    const staff = [{ id: 1, kind: "weapon", position: position }];
-    const newState = { ...state, staff: staff, player: { ...state.player, attack: 17 } };
-    const expected = { ...state, staff: [], player: { ...state.player, attack: 27 } };
-    expect(
-      reducer(newState, {
-        type: types.CHANGE_ATTACK,
-        position: position
-      })
-    ).toEqual(expected);
-  });
-
-  it('should handle CHANGE_WEAPON', () => {
+  it("should handle CHANGE_WEAPON", () => {
     const position = { x: 12, y: 10 };
     const kind = "something";
     const staff = [{ id: 1, kind: "weapon", position: position }];
-    const newState = { ...state, staff: staff, player: { ...state.player, weapon: "stick" } };
-    const expected = { ...state, staff: [], player: { ...state.player, weapon: kind } };
+    const newState = {
+      ...state,
+      staff: staff,
+      player: { ...state.player, weapon: "stick" }
+    };
+    const expected = {
+      ...state,
+      staff: [],
+      player: { ...state.player, weapon: kind }
+    };
     expect(
       reducer(newState, {
         type: types.CHANGE_WEAPON,
@@ -248,18 +363,69 @@ describe("reducer", () => {
     ).toEqual(expected);
   });
 
-  it('should handle ADD_LEVEL', () => {
-    const player = { ...state.player, attack: 12, level: 3, nextlevel: 9, xp: 12 };
+  it("should handle ADD_LEVEL", () => {
+    const player = {
+      ...state.player,
+      health: 100,
+      attack: 12,
+      level: 3,
+      nextlevel: 9,
+      xp: 12
+    };
     const newState = { ...state, player: player };
-    const expectedPlayer = { ...state.player, attack: 24, level: 4, nextlevel: 18, xp: 3 };
+    const expectedPlayer = {
+      ...state.player,
+      health: 200,
+      attack: 24,
+      level: 4,
+      nextlevel: 18,
+      xp: 3
+    };
     const expected = { ...state, player: expectedPlayer };
     expect(
       reducer(newState, {
-        type: types.ADD_LEVEL,
+        type: types.ADD_LEVEL
       })
     ).toEqual(expected);
   });
 
-
-
+  it("should handle REMOVE_ENEMY", () => {
+    const position = { x: 3, y: 2 };
+    const staff = [
+      {
+        id: 2,
+        boss: false,
+        kind: "enemy",
+        health: 60,
+        attack: 5,
+        position: position
+      },
+      {
+        id: 5,
+        boss: false,
+        kind: "enemy",
+        health: 60,
+        attack: 5,
+        position: { x: 3, y: 4 }
+      }
+    ];
+    const newState = { ...state, staff: staff };
+    const expectedStaff = [
+      {
+        id: 5,
+        boss: false,
+        kind: "enemy",
+        health: 60,
+        attack: 5,
+        position: { x: 3, y: 4 }
+      }
+    ];
+    const expected = { ...state, staff: expectedStaff };
+    expect(
+      reducer(newState, {
+        type: types.REMOVE_ENEMY,
+        position: position
+      })
+    ).toEqual(expected);
+  });
 });

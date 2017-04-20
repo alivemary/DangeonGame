@@ -38,4 +38,26 @@ describe("<DungeonGame />", () => {
     });
   });
 
+  describe("checkVictory", () => {
+    it('should return false if none wins', () => {
+      let isVictory = wrapper.instance().checkVictory(10, 20, false);
+      expect(isVictory).toEqual(false);
+    });
+    it('should return true if player wins', () => {
+      let isVictory = wrapper.instance().checkVictory(-2, 20, false);
+      expect(isVictory).toEqual(true);
+    });
+    it('should return true if enemy wins', () => {
+      let isVictory = wrapper.instance().checkVictory(10, -4, false);
+      expect(isVictory).toEqual(true);
+    });
+  });
+
+  describe("calculateBonus", () => {
+    it('should return right number', () => {
+      let bonus = wrapper.instance().calculateBonus("blade");
+      expect(bonus).toEqual(30);
+    });
+  });
+
 });

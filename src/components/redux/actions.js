@@ -8,7 +8,6 @@ import {
     PUT_STAFF,
     CHANGE_HEALTH,
     CHANGE_WEAPON,
-    CHANGE_XP,
     ADD_LEVEL,
     REMOVE_ENEMY
 } from "./actionTypes";
@@ -46,8 +45,7 @@ export function putPlayer(position) {
 export function putBoss(id, position) {
     return {
         type: PUT_BOSS,
-        id,
-        position
+        id
     }
 }
 
@@ -79,11 +77,6 @@ export function changeWeapon(position, kind) {
         type: CHANGE_WEAPON,
         position,
         kind
-    }
-}
-export function changeXp() {
-    return {
-        type: CHANGE_XP
     }
 }
 

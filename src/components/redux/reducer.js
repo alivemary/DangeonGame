@@ -8,7 +8,6 @@ import {
   PUT_STAFF,
   CHANGE_HEALTH,
   CHANGE_WEAPON,
-  CHANGE_XP,
   ADD_LEVEL,
   REMOVE_ENEMY
 } from "./actionTypes";

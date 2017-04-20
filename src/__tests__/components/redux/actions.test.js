@@ -5,13 +5,11 @@ import {
   putPlayer,
   putBoss,
   putStaff,
-  attackBoss,
   attackEnemy,
   changeHealth,
-  changeAttack,
   changeWeapon,
-  changeXp,
-  addLevel
+  addLevel,
+  removeEnemy
 } from '../actions';
 
 describe('actions', () => {
@@ -58,29 +56,17 @@ describe('actions', () => {
       expect(putBoss().type).toEqual('PUT_BOSS');
     });
     it('should pass on the position we pass in', () => {
-      let position = { x: 13, y: 22 };
-      expect(putBoss(position).position).toEqual(position);
+      let id = 5;
+      expect(putBoss(id).id).toEqual(id);
     });
   });
   describe('putStaff', () => {
     it('should have a type of "PUT_STAFF"', () => {
       expect(putStaff().type).toEqual('PUT_STAFF');
     });
-    it('should pass on the position we pass in', () => {
-      let position = { x: 13, y: 22 };
-      let kind = "medicine";
-      expect(putStaff(kind, position).position).toEqual(position);
-      expect(putStaff(kind, position).kind).toEqual(kind);
-    });
-  });
-  describe('attackBoss', () => {
-    it('should have a type of "ATTACK_BOSS"', () => {
-      let bonus = 10;
-      expect(attackBoss(bonus).type).toEqual('ATTACK_BOSS');
-    });
-    it('should pass on the bonus we pass in', () => {
-      let bonus = 10;
-      expect(attackBoss(bonus).bonus).toEqual(bonus);
+    it('should pass on the staff we pass in', () => {
+      const staff = ["medicine", 3, false];
+      expect(putStaff(staff).staff).toEqual(staff);
     });
   });
   describe('attackEnemy', () => {
@@ -95,15 +81,6 @@ describe('actions', () => {
     it('should pass on the position we pass in', () => {
       let position = { x: 13, y: 22 };
       expect(changeHealth(position).position).toEqual(position);
-    });
-  });
-  describe('changeAttack', () => {
-    it('should have a type of "CHANGE_ATTACK"', () => {
-      expect(changeAttack().type).toEqual('CHANGE_ATTACK');
-    });
-    it('should pass on the position we pass in', () => {
-      let position = { x: 13, y: 22 };
-      expect(changeAttack(position).position).toEqual(position);
     });
   });
   describe('changeWeapon', () => {
@@ -123,14 +100,18 @@ describe('actions', () => {
       expect(changeWeapon(position, kind).kind).toEqual(kind);
     });
   });
-  describe('changeXp', () => {
-    it('should have a type of "CHANGE_XP"', () => {
-      expect(changeXp().type).toEqual('CHANGE_XP');
-    });
-  });
   describe('addLevel', () => {
     it('should have a type of "ADD_LEVEL"', () => {
       expect(addLevel().type).toEqual('ADD_LEVEL');
+    });
+  });
+  describe('removeEnemy', () => {
+    it('should have a type of "REMOVE_ENEMY"', () => {
+      expect(removeEnemy().type).toEqual('REMOVE_ENEMY');
+    });
+    it('should pass on the position we pass in', () => {
+      let position = { x: 13, y: 22 };
+      expect(removeEnemy(position).position).toEqual(position);
     });
   });
 });
