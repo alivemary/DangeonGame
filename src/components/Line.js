@@ -6,13 +6,13 @@ export default class Line extends Component {
     line: PropTypes.array,
     number: PropTypes.number,
     player: PropTypes.string,
-    boss: PropTypes.string
+    staff: PropTypes.array
   }
   static defaultProps = {
     line: [],
     number: 0,
     player: "",
-    boss: ""
+    staff: []
   }
 
   capitalizeFirstLetter(string) {
@@ -33,10 +33,6 @@ export default class Line extends Component {
           title = this.props.player;
           break;
         }
-        case "BOSS": {
-          classes += " boss";
-          title = this.props.boss;
-        }
         default: {
           classes += " wall";
           break;
@@ -55,7 +51,11 @@ export default class Line extends Component {
                 title += "attack +10";
                 break;
               case "enemy":
-                title += "health: 60, attack: 5";
+                if (staff.boss) {
+                  classes = "element boss";
+                  title ="BOSS!!! "
+                }
+                title += "health: " + staff.health +", attack: "+ staff.attack;
                 break;
               default:
                 title += " ";

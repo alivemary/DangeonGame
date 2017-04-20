@@ -9,21 +9,11 @@ export function initState() {
         player: {
             position: { x: 0, y: 0 },
             health: 100,
-            attack: 17,
+            attack: 10,
             weapon: "stick",
             level: 0,
             xp: 0,
             nextlevel: 60
-        },
-        boss: {
-            position: { x: 0, y: 0 },
-            health: 500,
-            attack: 20
-        },
-        current_enemy: {
-            position: { x: 0, y: 0 },
-            health: 60,
-            attack: 5
         },
         staff: []
     }

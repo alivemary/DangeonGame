@@ -65,7 +65,6 @@ export class DungeonGame extends React.Component {
 	putPlayer(position) {
 		for (let i=0; i<this.props.staff.length; i++) {
 			let item = this.props.staff[i];
-			console.log(item);
 			if (item.position.x === position.x && item.position.y === position.y) {
 				if (item.kind === "medicine") {
 					this.props.dispatch(actions.changeHealth(position));
@@ -77,7 +76,7 @@ export class DungeonGame extends React.Component {
 					
 				}
 				if (item.kind === "enemy") {
-					this.props.dispatch(actions.attackEnemy(i+1, 
+					this.props.dispatch(actions.attackEnemy(item.id, 
 										this.calculateBonus(this.props.player.weapon),
 										item.attack));
 					this.checkLevel(this.props.player);
@@ -91,22 +90,6 @@ export class DungeonGame extends React.Component {
 			}
 		}
 		this.movePlayer(position);
-	}
-
-	attackBoss(position) {
-		if (this.props.boss.position.x === position.x && this.props.boss.position.y === position.y) {
-			if (this.props.boss.health > 0 && this.props.player.health > 0) {
-				this.props.dispatch(actions.attackBoss(this.calculateBonus(this.props.player.weapon)));
-				this.checkLevel(this.props.player);
-				if (this.checkVictory(this.props.boss.health, this.props.player.health)) {
-					let winText = (this.props.player.health <= 0) ? "You loose!" : "You win!";
-					alert(winText);
-				}
-			}
-			return;
-		}
-		
-		
 	}
 
 	putStaff(position) {
@@ -153,7 +136,7 @@ export class DungeonGame extends React.Component {
 		
 		this.props.dispatch(actions.putBoss(id, bossPosition));
 		this.props.dispatch(actions.putPlayer(playerPosition));
-		
+		this.props.dispatch(actions.removeEnemy(playerPosition));
 
 	}
 
@@ -201,7 +184,6 @@ export class DungeonGame extends React.Component {
 				<Line number={index}
 					line={line}
 					player={"Health: " + this.props.player.health + ", Attack: " + this.props.player.attack}
-					boss={"Health: " + this.props.boss.health + ", Attack: " + this.props.boss.attack}
 					staff={this.props.staff}
 				/>
 			</div>
@@ -223,7 +205,6 @@ export default connect((store) => {
 		dungeon: store.dungeon,
 		rooms: store.rooms,
 		player: store.player,
-		boss: store.boss,
 		current_enemy: store.current_enemy,
 		staff: store.staff
 	}

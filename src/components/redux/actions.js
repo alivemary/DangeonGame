@@ -4,11 +4,9 @@ import {
     ADD_CORRIDORS_TO_DUNGEON,
     PUT_PLAYER,
     PUT_BOSS,
-    ATTACK_BOSS,
     ATTACK_ENEMY,
     PUT_STAFF,
     CHANGE_HEALTH,
-    CHANGE_ATTACK,
     CHANGE_WEAPON,
     CHANGE_XP,
     ADD_LEVEL,
@@ -53,13 +51,6 @@ export function putBoss(id, position) {
     }
 }
 
-export function attackBoss(bonus) {
-    return {
-        type: ATTACK_BOSS,
-        bonus
-    }
-}
-
 export function attackEnemy(id, bonus, enemyAttack) {
     return {
         type: ATTACK_ENEMY,
@@ -82,12 +73,7 @@ export function changeHealth(position) {
         position
     }
 }
-export function changeAttack(position) {
-    return {
-        type: CHANGE_ATTACK,
-        position
-    }
-}
+
 export function changeWeapon(position, kind) {
     return {
         type: CHANGE_WEAPON,
