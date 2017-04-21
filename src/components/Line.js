@@ -1,19 +1,23 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
 
 export default class Line extends Component {
   static propTypes = {
     line: PropTypes.array,
     number: PropTypes.number,
     player: PropTypes.string,
-    staff: PropTypes.array
-  }
+    position: PropTypes.object,
+    staff: PropTypes.array,
+    dark: PropTypes.bool
+  };
   static defaultProps = {
     line: [],
     number: 0,
     player: "",
-    staff: []
-  }
+    position: {},
+    staff: [],
+    dark: false
+  };
 
   capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
@@ -23,40 +27,58 @@ export default class Line extends Component {
     var elementList = this.props.line.map((element, index) => {
       let classes = "element";
       let title = "";
+      let toShow = !this.props.dark;
+      if (!toShow) {
+        if (
+          this.props.number < this.props.position.x + 3 &&
+          this.props.number > this.props.position.x - 3 &&
+          index < this.props.position.y + 3 &&
+          index > this.props.position.y - 3
+        ) {
+          toShow = true;
+        }
+      }
       switch (element) {
         case "SPACE": {
-          classes += " space";
+          classes += toShow ? " space" : "";
           break;
         }
+
         case "PLAYER": {
           classes += " player blink_me";
           title = this.props.player;
           break;
         }
+
         default: {
-          classes += " wall";
+          classes += toShow ? " wall" : "";
           break;
         }
       }
       if (Number.isInteger(element)) {
         this.props.staff.forEach(staff => {
           if (staff.id === element) {
-            classes += " " + staff.kind;
-            title = this.capitalizeFirstLetter(staff.kind) + ": ";
+            classes += toShow ? " " + staff.kind : "";
+            title = toShow ? this.capitalizeFirstLetter(staff.kind) + ": " : "";
             switch (staff.kind) {
               case "medicine":
-                title += "health +60";
+                title += toShow ? "health +60" : "";
                 break;
+
               case "weapon":
-                title += "attack +10";
+                title += toShow ? "attack +10" : "";
                 break;
+
               case "enemy":
                 if (staff.boss) {
-                  classes = "element boss";
-                  title ="BOSS!!! "
+                  classes = toShow ? "element boss" : "element";
+                  title = toShow ? "BOSS!!! " : "";
                 }
-                title += "health: " + staff.health +", attack: "+ staff.attack;
+                title += toShow
+                  ? "health: " + staff.health + ", attack: " + staff.attack
+                  : "";
                 break;
+
               default:
                 title += " ";
             }
@@ -64,11 +86,14 @@ export default class Line extends Component {
         });
       }
 
-      return <div id={this.props.number + '_' + index}
-        key={this.props.number + '_' + index}
-        className={classes}
-        title={title}>
-      </div>
+      return (
+        <div
+          id={this.props.number + "_" + index}
+          key={this.props.number + "_" + index}
+          className={classes}
+          title={title}
+        />
+      );
     });
     return (
       <div>

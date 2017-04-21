@@ -1,5 +1,7 @@
 import React from 'react';
 import Line from './Line.js';
+import ToggleButton from './ToggleButton';
+import Stats from './Stats';
 import { connect } from 'react-redux';
 import * as actions from './redux/actions.js'
 
@@ -9,6 +11,16 @@ const NUMBER_OF_ROOMS = 15;
 const weaponTypes = ["stick", "dagger", "blade", "short sword", "long sword", "great sword", "holy sword", "rappier"];
 
 export class DungeonGame extends React.Component {
+
+	constructor(props) {
+		super(props);
+
+		this.state = {
+			isDarkness: true
+		}
+
+		this.handleClick = this.handleClick.bind(this);
+	}
 
 	initEmptyDungeon() {
 		let dungeon = [];
@@ -158,6 +170,10 @@ export class DungeonGame extends React.Component {
 		}
 	}
 
+	handleClick() {
+		this.setState({isDarkness: !this.state.isDarkness});
+	}
+
 	componentDidMount() {
 		this.initDungeon();
 		document.addEventListener("keydown", this.handleKeyDown.bind(this));
@@ -173,25 +189,22 @@ export class DungeonGame extends React.Component {
 			height: DUNGEON_HEIGHT * 20
 		};
 
-		let statsString = "Health: " + this.props.player.health
-			+ " Attack: " + this.props.player.attack
-			+ " Weapon: " + this.props.player.weapon
-			+ " XP: " + this.props.player.xp
-			+ " Level: " + this.props.player.level;
-
 		let dungeonList = this.props.dungeon.map((line, index) => {
 			return <div key={"line" + index} className='line'>
 				<Line number={index}
 					line={line}
 					player={"Health: " + this.props.player.health + ", Attack: " + this.props.player.attack}
+					position={this.props.player.position}
 					staff={this.props.staff}
+					dark={this.state.isDarkness}
 				/>
 			</div>
 		});
 		return (
 			<div className="dungeon-game">
 				<h3>Kill the boss in the dungeon</h3>
-				<div>{statsString}</div>
+				<Stats player={this.props.player} />
+				<ToggleButton activity={this.handleClick} />
 				<div className="game" style={style}>
 					{dungeonList}
 				</div>
