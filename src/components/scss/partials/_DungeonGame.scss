@@ -20,18 +20,22 @@
         }
         .space {
             background-color: white;
+            //background-image: url("./img/grass.png");
         }
         .wall {
-            background-color: #202020;
+            //background-color: #202020;
+            background-image: url("./img/wall.png");
         }
         .boss {
-            background-color: red;
+            //background-color: red;
+            background-image: url("./img/boss.png");
         }
         .player {
             background-color: blue;
         }
         .medicine {
-            background-color: green;
+            //background-color: green;
+            background-image: url("./img/grass.png");
         }
         .weapon {
             background-color: brown;
