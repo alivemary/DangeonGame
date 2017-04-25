@@ -12,36 +12,32 @@
         .element {
             width: 20px;
             height: 20px;
-            font-size: 6px;
             box-sizing: border-box;
-            border-top: $border;
-            border-right: $border;
             background-color: black;
         }
         .space {
             background-color: white;
-            //background-image: url("./img/grass.png");
+            border-top: $border;
+            border-right: $border;
         }
         .wall {
-            //background-color: #202020;
+            background-color: #202020;
             background-image: url("./img/wall.png");
         }
         .boss {
-            //background-color: red;
-            background-image: url("./img/boss.png");
+            @include staff-style(red, "./img/boss.png");
         }
         .player {
-            background-color: blue;
+            @include staff-style(blue, "./img/player.jpg");
         }
         .medicine {
-            //background-color: green;
-            background-image: url("./img/grass.png");
+            @include staff-style(green, "./img/medicine.jpg");
         }
         .weapon {
-            background-color: brown;
+            @include staff-style(brown, "./img/weapon.jpg");
         }
         .enemy {
-            background-color: yellow;
+            @include staff-style(orange, "./img/enemy.png");
         }
         .blink_me {
             animation: blinker 0.7s linear infinite;

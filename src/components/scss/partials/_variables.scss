@@ -1,1 +1,11 @@
 $border: 1px solid grey;
+
+@mixin colorful-border($color) {
+    border: 2px solid $color;
+}
+
+@mixin staff-style($color, $url) {
+    background-color: $color;
+    background-image: url($url);
+    @include colorful-border($color);
+}
