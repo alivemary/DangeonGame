@@ -7,6 +7,7 @@ class App extends React.Component {
             <div>
                 <div className="app-header">
                     <h2>Roguelike Dungeon Crawler Game</h2>
+                    <a href="https://github.com/alivemary/dungeon-game" target="blank">Code on GitHub</a>
                 </div>
                 <DungeonGame />
             </div>
