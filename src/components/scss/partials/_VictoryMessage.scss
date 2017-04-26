@@ -1,0 +1,44 @@
+.modalDialog {
+	position: fixed;
+	font-family: Arial, Helvetica, sans-serif;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	background: rgba(0,0,0,0.8);
+	z-index: 99999;
+	opacity:0;
+	-webkit-transition: opacity 400ms ease-in;
+	-moz-transition: opacity 400ms ease-in;
+	transition: opacity 400ms ease-in;
+	pointer-events: none;
+}
+
+
+.modalDialog:target {
+	opacity:1;
+	pointer-events: auto;
+}
+
+.modalDialog > div {
+	width: 480px;
+	position: relative;
+	margin: 10% auto;
+	padding: 5px 20px 13px 20px;
+	border-radius: 10px;
+	background: #F5F5F5;
+	background: -moz-linear-gradient(#F5F5F5, lightgrey);
+	background: -webkit-linear-gradient(#F5F5F5, lightgrey);
+	background: -o-linear-gradient(#F5F5F5, lightgrey);
+}
+
+@media (max-width: 320px) {
+    .modalDialog > div {
+        width: 300px;
+    }
+}
+@media (min-width: 768px) {
+    .modalDialog > div {
+        width: 480px;
+    }
+}

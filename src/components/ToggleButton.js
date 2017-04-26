@@ -17,7 +17,7 @@ handleClick () {
     render() {
         return (
             <div className="toggle-button">
-                <button onClick={this.handleClick.bind(this)}>Toggle Light </button>
+                <button onClick={this.handleClick.bind(this)}>{this.props.text}</button>
             </div>
         );
     }

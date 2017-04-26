@@ -2,6 +2,7 @@ import React from 'react';
 import Line from './Line.js';
 import ToggleButton from './ToggleButton';
 import Stats from './Stats';
+import VictoryMessage from "./VictoryMessage";
 import { connect } from 'react-redux';
 import * as actions from './redux/actions.js'
 
@@ -16,10 +17,13 @@ export class DungeonGame extends React.Component {
 		super(props);
 
 		this.state = {
-			isDarkness: true
+			isDarkness: true,
+			isModalOpen: false,
+			isPlayerWin: false
 		}
 
 		this.handleClick = this.handleClick.bind(this);
+		this.initDungeon = this.initDungeon.bind(this);
 	}
 
 	initEmptyDungeon() {
@@ -55,14 +59,14 @@ export class DungeonGame extends React.Component {
 	}
 
 	showVictory() {
-		let winText = (this.props.player.health <= 0) ? "You loose!" : "You win!";
-		alert(winText);
+		let isPlayerWin = (this.props.player.health > 0);
+		this.setState({isModalOpen: true, isPlayerWin: isPlayerWin});
 	}
 
 	calculateBonus(weapon) {
 		for (let i=0; i<weaponTypes.length; i++) {
 			if (weapon === weaponTypes[i]) {
-				return (i+1)*10;
+				return (i+1)*5;
 			}
 		}
 		return 0;
@@ -115,7 +119,11 @@ export class DungeonGame extends React.Component {
 	}
 
 	initDungeon() {
-
+		this.setState({
+			isDarkness: true,
+			isModalOpen: false,
+			isPlayerWin: false
+		});
 		this.props.dispatch(actions.addDungeon(this.initEmptyDungeon()));
 		let previousRoom = { x: Math.floor(DUNGEON_WIDTH / 2), y: Math.floor(DUNGEON_HEIGHT / 2) }
 		let playerPosition = previousRoom;
@@ -200,14 +208,16 @@ export class DungeonGame extends React.Component {
 				/>
 			</div>
 		});
+
 		return (
 			<div className="dungeon-game">
 				<h3>Kill the boss in the dungeon</h3>
 				<Stats player={this.props.player} />
-				<ToggleButton activity={this.handleClick} />
+				<ToggleButton activity={this.handleClick} text="Toggle Light"/>
 				<div className="game" style={style}>
 					{dungeonList}
 				</div>
+				<VictoryMessage isOpen={this.state.isModalOpen} isPlayerWin={this.state.isPlayerWin} />
 			</div>
 		)
 	}

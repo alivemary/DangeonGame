@@ -100,8 +100,8 @@ export default function reducer(state = initState(), action) {
               ...element,
               kind: "enemy",
               boss: true,
-              health: 300,
-              attack: 20
+              health: 400,
+              attack: 30
             };
           }
           return element;
@@ -115,7 +115,7 @@ export default function reducer(state = initState(), action) {
           if (element.id === action.id) {
             return {
               ...element,
-              health: element.health - state.player.attack - action.bonus
+              health: element.health - state.player.attack*(state.player.level+1) - action.bonus
             };
           }
           return element;
@@ -179,7 +179,6 @@ export default function reducer(state = initState(), action) {
         player: {
           ...state.player,
           health: state.player.health + 100,
-          attack: state.player.attack * 2,
           level: state.player.level + 1,
           xp: state.player.xp - state.player.nextlevel,
           nextlevel: state.player.nextlevel * 2
