@@ -1,5 +1,4 @@
 import React from "react";
-import Line from "./Line.js";
 import Square from "./Square.js";
 import ToggleButton from "./ToggleButton";
 import Stats from "./Stats";
@@ -218,31 +217,37 @@ export class DungeonGame extends React.Component {
       height: DUNGEON_HEIGHT * 20
     };
 
-    let dungeonList = this.props.dungeon.map((line, index) => {
-      return (
-        <div key={"line" + index} className="line">
-          <Line
-            number={index}
-            line={line}
-            player={
-              "Health: " +
-              this.props.player.health +
-              ", Attack: " +
-              this.props.player.attack
-            }
-            position={this.props.player.position}
-            staff={this.props.staff}
-            dark={this.state.isDarkness}
-          />
-        </div>
-      );
-    });
-
-	let dungeonList1 = this.props.dungeon.map((line, x) => {
+    
+    let dungeonList = this.props.dungeon.map((line, x) => {
       let row = line.map((square, y) => {
-			return <Square />
-	  });
-	  return <div key={"line" + x} className="line">{row}</div>
+        let player = 
+          "Health: " +
+          this.props.player.health +
+          ", Attack: " +
+          this.props.player.attack;
+
+        let toShow = !this.state.isDarkness;
+        if (!toShow) {
+          if (
+            x < this.props.player.position.x + 3 &&
+            x > this.props.player.position.x - 3 &&
+            y < this.props.player.position.y + 3 &&
+            y > this.props.player.position.y - 3
+          ) {
+            toShow = true;
+          }
+        }
+        return (
+          <Square
+            type={square}
+            id={x + "_" + y}
+            staff={this.props.staff}
+            player={player}
+            dark={toShow}
+          />
+        );
+      });
+      return <div key={"line" + x} className="line">{row}</div>;
     });
 
     return (
@@ -251,7 +256,7 @@ export class DungeonGame extends React.Component {
         <Stats player={this.props.player} />
         <ToggleButton activity={this.handleClick} text="Toggle Light" />
         <div className="game" style={style}>
-          {dungeonList1}
+          {dungeonList}
         </div>
         <VictoryMessage
           isOpen={this.state.isModalOpen}
