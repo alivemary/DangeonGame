@@ -154,8 +154,8 @@ describe("reducer", () => {
         id: 3,
         boss: true,
         kind: "enemy",
-        health: 300,
-        attack: 20,
+        health: 400,
+        attack: 30,
         position: { x: 3, y: 4 }
       },
       {
@@ -376,7 +376,7 @@ describe("reducer", () => {
     const expectedPlayer = {
       ...state.player,
       health: 200,
-      attack: 24,
+      attack: 12,
       level: 4,
       nextlevel: 18,
       xp: 3

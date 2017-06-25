@@ -56,7 +56,7 @@ describe("<DungeonGame />", () => {
   describe("calculateBonus", () => {
     it('should return right number', () => {
       let bonus = wrapper.instance().calculateBonus("blade");
-      expect(bonus).toEqual(30);
+      expect(bonus).toEqual(15);
     });
   });
 

@@ -29,7 +29,8 @@ export default function reducer(state = initState(), action) {
           if (i > newRoom.x - action.length && i <= newRoom.x + action.length) {
             return element.map((el, j) => {
               if (
-                j > newRoom.y - action.length && j <= newRoom.y + action.length
+                j > newRoom.y - action.length &&
+                j <= newRoom.y + action.length
               ) {
                 if (el === "WALL") {
                   return "SPACE";
@@ -87,7 +88,7 @@ export default function reducer(state = initState(), action) {
             }
             return el;
           });
-          return element;
+          
         })
       };
 
@@ -115,7 +116,10 @@ export default function reducer(state = initState(), action) {
           if (element.id === action.id) {
             return {
               ...element,
-              health: element.health - state.player.attack*(state.player.level+1) - action.bonus
+              health:
+                element.health -
+                  state.player.attack * (state.player.level + 1) -
+                  action.bonus
             };
           }
           return element;
@@ -150,8 +154,10 @@ export default function reducer(state = initState(), action) {
         ...state,
         staff: state.staff.filter(
           element =>
-            !(element.position.x === action.position.x &&
-              element.position.y === action.position.y)
+            !(
+              element.position.x === action.position.x &&
+              element.position.y === action.position.y
+            )
         ),
         player: {
           ...state.player,
@@ -164,8 +170,10 @@ export default function reducer(state = initState(), action) {
         ...state,
         staff: state.staff.filter(
           element =>
-            !(element.position.x === action.position.x &&
-              element.position.y === action.position.y)
+            !(
+              element.position.x === action.position.x &&
+              element.position.y === action.position.y
+            )
         ),
         player: {
           ...state.player,
@@ -190,8 +198,10 @@ export default function reducer(state = initState(), action) {
         ...state,
         staff: state.staff.filter(
           element =>
-            !(element.position.x === action.position.x &&
-              element.position.y === action.position.y)
+            !(
+              element.position.x === action.position.x &&
+              element.position.y === action.position.y
+            )
         )
       };
 
