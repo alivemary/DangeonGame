@@ -1,5 +1,6 @@
 import React from "react";
 import Line from "./Line.js";
+import Square from "./Square.js";
 import ToggleButton from "./ToggleButton";
 import Stats from "./Stats";
 import VictoryMessage from "./VictoryMessage";
@@ -237,13 +238,20 @@ export class DungeonGame extends React.Component {
       );
     });
 
+	let dungeonList1 = this.props.dungeon.map((line, x) => {
+      let row = line.map((square, y) => {
+			return <Square />
+	  });
+	  return <div key={"line" + x} className="line">{row}</div>
+    });
+
     return (
       <div className="dungeon-game">
         <h3>Kill the boss in the dungeon</h3>
         <Stats player={this.props.player} />
         <ToggleButton activity={this.handleClick} text="Toggle Light" />
         <div className="game" style={style}>
-          {dungeonList}
+          {dungeonList1}
         </div>
         <VictoryMessage
           isOpen={this.state.isModalOpen}
