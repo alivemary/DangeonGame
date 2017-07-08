@@ -213,48 +213,49 @@ export class DungeonGame extends React.Component {
 
   render() {
     let style = {
-      width: DUNGEON_WIDTH * 20,
-      height: DUNGEON_HEIGHT * 20
+      width: 5 * 20,
+      height: 5 * 20
     };
-
+    let viewDungeon = this.props.dungeon.filter((row, x) => {
+      return x>this.props.player.position.x-3 && x<this.props.player.position.x+3;
+    });
+    let newDungeon = [];
+    viewDungeon.forEach((row) => {
+      newDungeon.push(row.filter((element, y) => {
+        return y>this.props.player.position.y-3 && y<this.props.player.position.y+3;
+      }));
+    });
     
-    let dungeonList = this.props.dungeon.map((line, x) => {
+    let dungeonList = newDungeon.map((line, x) => {
       let row = line.map((square, y) => {
-        let player = 
+        let player =
           "Health: " +
           this.props.player.health +
           ", Attack: " +
           this.props.player.attack;
 
-        let toShow = !this.state.isDarkness;
-        if (!toShow) {
-          if (
-            x < this.props.player.position.x + 3 &&
-            x > this.props.player.position.x - 3 &&
-            y < this.props.player.position.y + 3 &&
-            y > this.props.player.position.y - 3
-          ) {
-            toShow = true;
-          }
-        }
         return (
           <Square
             type={square}
             id={x + "_" + y}
             staff={this.props.staff}
             player={player}
-            dark={toShow}
+            dark={true}
           />
         );
       });
-      return <div key={"line" + x} className="line">{row}</div>;
+      return (
+        <div key={"line" + x} className="line">
+          {row}
+        </div>
+      );
     });
 
     return (
       <div className="dungeon-game">
         <h3>Kill the boss in the dungeon</h3>
         <Stats player={this.props.player} />
-        <ToggleButton activity={this.handleClick} text="Toggle Light" />
+        
         <div className="game" style={style}>
           {dungeonList}
         </div>

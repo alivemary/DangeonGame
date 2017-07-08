@@ -4,9 +4,8 @@
     flex-wrap: wrap;
     justify-content: flex-start;
     margin: auto;
-    border: none;
-    border-right: none;
-    border-top: none;
+    border: 20px solid grey;
+    
     .line {
         box-sizing: border-box;
         .element {
